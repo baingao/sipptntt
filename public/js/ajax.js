@@ -1,13 +1,13 @@
 function showRegister() {
-    showPage("register.php", "Register", true);
+    showPage("../includes/pages/register.php", "Register", true);
 }
 
 function showIPPT() {
-    showPage("ippt.php", "Izin Pemasukan dan Pengeluaran Ternak", true)
+    showPage("../includes/pages/ippt.php", "Izin Pemasukan dan Pengeluaran Ternak", true)
 }
 
 function showHome() {
-    showPage("home.php", "SIPPT NTT", false);
+    showPage("../includes/pages/home.php", "SIPPT NTT", false);
 }
 
 function showSubmitButton() {
@@ -22,7 +22,7 @@ function hideSubmitButton() {
 
 function formSubmit(form_id) {
     var elementValuesById = getElementValuesById(form_id);
-    showPageWithParam("submit_insert.php?q=", elementValuesById, "Insert data berhasil", false);
+    showPageWithParam("../includes/helpers/submit_insert.php?q=", elementValuesById, "Insert data berhasil", false);
 }
 
 function formReset(form_id) {
@@ -140,7 +140,7 @@ function showKecamatan(str) {
                 document.getElementById("div_idKecamatan").innerHTML = xmlhttp.responseText;
             }
         };
-        xmlhttp.open("GET", "get_kecamatan.php?q=" + str, true);
+        xmlhttp.open("GET", "../includes/helpers/get_kecamatan.php?q=" + str, true);
         xmlhttp.send();
     }
 }
@@ -162,7 +162,7 @@ function showKelurahan(str) {
                 document.getElementById("div_idKelurahan").innerHTML = xmlhttp.responseText;
             }
         };
-        xmlhttp.open("GET", "get_kelurahan.php?q=" + str, true);
+        xmlhttp.open("GET", "../includes/helpers/get_kelurahan.php?q=" + str, true);
         xmlhttp.send();
     }
 }
