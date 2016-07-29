@@ -1,5 +1,21 @@
+function dataEdit(value) {
+    window.alert('Edit id: ' + value);
+}
+
+function dataTerbit(value) {
+    window.alert('Terbit id: ' + value);
+}
+
+function dataDelete(value) {
+    window.alert('Delete id: ' + value);
+}
+
+function showRegisterData() {
+    showPage("../includes/pages/register_data.php", "Data Register", false);
+}
+
 function showRegister() {
-    showPage("../includes/pages/register.php", "Register", true);
+    showPage("../includes/pages/register_baru.php", "Register : Daftar Baru", true);
 }
 
 function showIPPT() {
@@ -7,13 +23,21 @@ function showIPPT() {
 }
 
 function showHome() {
-    showPage("../includes/pages/home.php", "SIPPT NTT", false);
+    showPage("../includes/pages/home.php", "Sistem Informasi Pelayanan Perizinan Terpadu<br>Provinsi Nusa Tenggara Timur", false);
+}
+
+function showDataControlButton() {
+    document.getElementById("button-container").innerHTML =
+            '<button type="button" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="dateEdit(this.value)">Simpan</button>'
+            + '<button type="button" class="btn btn-warning btn-space" method="POST" value="insert-form" onclick="dataDelete(this.value)">Batal</button>'
+            + '<button type="button" class="btn btn-default btn-space" method="POST" value="insert-form" onclick="formClose(this.value)">Keluar</button>';
 }
 
 function showSubmitButton() {
     document.getElementById("button-container").innerHTML =
-            '<button type="submit" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="formSubmit(this.value)">Submit</button>'
-            + '<button type="reset" class="btn btn-danger btn-space" method="POST" value="insert-form" onclick="formReset(this.value)">Cancel</button>';
+            '<button type="submit" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="formSubmit(this.value)">Simpan</button>'
+            + '<button type="reset" class="btn btn-warning btn-space" method="POST" value="insert-form" onclick="formReset(this.value)">Batal</button>'
+            + '<button type="button" class="btn btn-default btn-space" method="POST" value="insert-form" onclick="formClose(this.value)">Keluar</button>';
 }
 
 function hideSubmitButton() {
@@ -27,6 +51,10 @@ function formSubmit(form_id) {
 
 function formReset(form_id) {
     document.getElementById(form_id).reset();
+}
+
+function formClose(form_id) {
+    showHome();
 }
 
 function showPageWithParam(target, param, title, submitButton) {
