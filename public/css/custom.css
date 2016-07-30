@@ -7,6 +7,51 @@ and open the template in the editor.
     Created on : Jul 26, 2016, 7:26:55 AM
     Author     : billrp
 */
+
+body {
+    padding-top: 50px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.pagination {
+    display: block;
+    text-align: center; 
+}
+
+.header {
+    padding: 50px 0;
+    text-align: center;
+    color: #fff;
+    background: -moz-radial-gradient(center, ellipse cover, rgba(227,71,73,1) 0%, rgba(186,27,31,1) 100%); /* ff3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(227,71,73,1)), color-stop(100%, rgba(186,27,31,1))); /* safari4+,chrome */
+    background:-webkit-radial-gradient(center, ellipse cover, rgba(227,71,73,1) 0%, rgba(186,27,31,1) 100%); /* safari5.1+,chrome10+ */
+    background: -o-radial-gradient(center, ellipse cover, rgba(227,71,73,1) 0%, rgba(186,27,31,1) 100%); /* opera 11.10+ */
+    background: -ms-radial-gradient(center, ellipse cover, rgba(227,71,73,1) 0%, rgba(186,27,31,1) 100%); /* ie10+ */
+    background:radial-gradient(ellipse at center, rgba(227,71,73,1) 0%, rgba(186,27,31,1) 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e34749', endColorstr='#ba1b1f',GradientType=1 ); /* ie6-9 */
+}
+
+.container-table {
+    align-content: center;
+    align-items: center;
+    align-self: center;
+    text-align: center; 
+}
+
+.form-button {
+    /*float: right;*/
+}
+
+.content-left {
+    width: 30%;
+    float: left;
+    padding: 5px 15px;
+}
+
+.content-center {
+    margin-top: 20px;
+}
+
 .navbar-default {
     margin-bottom: 0px;
 }
@@ -17,47 +62,56 @@ and open the template in the editor.
 }
 
 .btn-space {
-    margin-right: 5px;
+    width: 150px;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .columns-1 {
-    
+
 }
 
 .columns-2 {
     -webkit-column-clount: 2;
+    -webkit-column-width: 300px;
     -webkit-column-gap: 40px;
     -webkit-column-rule-style: solid;
     -webkit-column-rule-width: 1px;
     -webkit-column-rule-color: #cccccc;
-    
+
     -moz-column-count: 2;
+    -moz-column-width: 300px;
     -moz-column-gap: 40px;
     -moz-column-rule-style: solid;
     -moz-column-rule-width: 1px;
     -moz-column-rule-color: #cccccc;
-    
+
     column-count: 2;
+    column-width: 300px;
     column-gap: 40px;
     column-rule-style: solid;
     column-rule-width: 1px;
-    column-rule-color: #cccccc;
+    column-rule-color: #cccccc;        
 }
 
 .columns-3 {
     -webkit-column-clount: 3;
+    -webkit-column-width: 200px;
     -webkit-column-gap: 40px;
     -webkit-column-rule-style: solid;
     -webkit-column-rule-width: 1px;
     -webkit-column-rule-color: #cccccc;
-    
+
     -moz-column-count: 3;
+    -moz-column-width: 200px;
     -moz-column-gap: 40px;
     -moz-column-rule-style: solid;
     -moz-column-rule-width: 1px;
     -moz-column-rule-color: #cccccc;
-    
+
     column-count: 3;
+    column-width: 200px;
     column-gap: 40px;
     column-rule-style: solid;
     column-rule-width: 1px;

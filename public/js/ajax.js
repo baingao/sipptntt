@@ -1,5 +1,5 @@
 function dataEdit(value) {
-    window.alert('Edit id: ' + value);
+    showPageWithParam("register_edit.php?q=", value, "Register : Edit Data", true);
 }
 
 function dataTerbit(value) {
@@ -11,19 +11,19 @@ function dataDelete(value) {
 }
 
 function showRegisterData() {
-    showPage("../includes/pages/register_data.php", "Data Register", false);
+    showPage("register_data.php", "Data Register", false);
 }
 
 function showRegister() {
-    showPage("../includes/pages/register_baru.php", "Register : Daftar Baru", true);
+    showPage("register_baru.php", "Register : Daftar Baru", true);
 }
 
 function showIPPT() {
-    showPage("../includes/pages/ippt.php", "Izin Pemasukan dan Pengeluaran Ternak", true)
+    showPage("ippt_baru.php", "Izin Pemasukan dan Pengeluaran Ternak", true)
 }
 
 function showHome() {
-    showPage("../includes/pages/home.php", "Sistem Informasi Pelayanan Perizinan Terpadu<br>Provinsi Nusa Tenggara Timur", false);
+    showPage("home.php", "Sistem Informasi Pelayanan Perizinan Terpadu<br>Provinsi Nusa Tenggara Timur", false);
 }
 
 function showDataControlButton() {
@@ -31,6 +31,17 @@ function showDataControlButton() {
             '<button type="button" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="dateEdit(this.value)">Simpan</button>'
             + '<button type="button" class="btn btn-warning btn-space" method="POST" value="insert-form" onclick="dataDelete(this.value)">Batal</button>'
             + '<button type="button" class="btn btn-default btn-space" method="POST" value="insert-form" onclick="formClose(this.value)">Keluar</button>';
+}
+
+function showUpdateButton() {
+    document.getElementById("button-container").innerHTML =
+            '<button type="submit" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="formUpdate(this.value)">Update</button>'
+            + '<button type="reset" class="btn btn-warning btn-space" method="POST" value="insert-form" onclick="formReset(this.value)">Batal</button>'
+            + '<button type="button" class="btn btn-default btn-space" method="POST" value="insert-form" onclick="formClose(this.value)">Keluar</button>';
+}
+
+function hideUpdateButton() {
+    document.getElementById("button-container").innerHTML = "";
 }
 
 function showSubmitButton() {
@@ -46,7 +57,7 @@ function hideSubmitButton() {
 
 function formSubmit(form_id) {
     var elementValuesById = getElementValuesById(form_id);
-    showPageWithParam("../includes/helpers/submit_insert.php?q=", elementValuesById, "Insert data berhasil", false);
+    showPageWithParam("submit_insert.php?q=", elementValuesById, "Insert data berhasil", false);
 }
 
 function formReset(form_id) {
@@ -59,9 +70,9 @@ function formClose(form_id) {
 
 function showPageWithParam(target, param, title, submitButton) {
     if (submitButton == true) {
-        showSubmitButton();
+        showUpdateButton();
     } else {
-        hideSubmitButton();
+        hideUpdateButton();
     }
     document.getElementById("content-title").innerHTML = "<h3>" + title + "</h3>";
     if (window.XMLHttpRequest) {
@@ -86,6 +97,7 @@ function showPage(target, title, submitButton) {
     } else {
         hideSubmitButton();
     }
+
     document.getElementById("content-title").innerHTML = "<h3>" + title + "</h3>";
     str = "";
     if (window.XMLHttpRequest) {
@@ -95,6 +107,7 @@ function showPage(target, title, submitButton) {
         // code for IE6, IE5
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
+
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("content-main").innerHTML = xmlhttp.responseText;
@@ -151,8 +164,10 @@ function getElementValuesById_old(form_name, target_div) {
     return param_values;
 }
 
-function showKecamatan(str) {
-    if (str == "") {
+function showKecamatan(id_kab, id_kec) {
+    id_kab = typeof id_kab !== 'undefined' ? id_kab : "";
+    id_kec = typeof id_kec !== 'undefined' ? id_kec : "";
+    if (id_kab == "") {
         document.getElementById("div_idKecamatan").innerHTML = "";
         return;
     } else {
@@ -168,13 +183,15 @@ function showKecamatan(str) {
                 document.getElementById("div_idKecamatan").innerHTML = xmlhttp.responseText;
             }
         };
-        xmlhttp.open("GET", "../includes/helpers/get_kecamatan.php?q=" + str, true);
+        xmlhttp.open("GET", "get_kecamatan.php?id_kab=" + id_kab + "&id_kec=" + id_kec, true);
         xmlhttp.send();
     }
 }
 
-function showKelurahan(str) {
-    if (str == "") {
+function showKelurahan(id_kec, id_kel) {
+    id_kec = typeof id_kec !== 'undefined' ? id_kec : "";
+    id_kel = typeof id_kel !== 'undefined' ? id_kel : "";
+    if (id_kec == "") {
         document.getElementById("div_idKelurahan").innerHTML = "";
         return;
     } else {
@@ -190,7 +207,38 @@ function showKelurahan(str) {
                 document.getElementById("div_idKelurahan").innerHTML = xmlhttp.responseText;
             }
         };
-        xmlhttp.open("GET", "../includes/helpers/get_kelurahan.php?q=" + str, true);
+        xmlhttp.open("GET", "get_kelurahan.php?id_kec=" + id_kec + "&id_kel=" + id_kel, true);
+        xmlhttp.send();
+    }
+}
+
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+function showKecKel(id_kab, id_kec, id_kel) {
+    id_kab = typeof id_kab !== 'undefined' ? id_kab : "";
+    id_kec = typeof id_kec !== 'undefined' ? id_kec : "";
+    if (id_kab == "") {
+        document.getElementById("div_idKecamatan").innerHTML = "";
+        return;
+    } else {
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("div_idKecamatan").innerHTML = xmlhttp.responseText;
+                sleep(500).then(() => {
+                    showKelurahan(id_kec, id_kel);
+                });
+            }
+        };
+        xmlhttp.open("GET", "get_kecamatan.php?id_kab=" + id_kab + "&id_kec=" + id_kec, true);
         xmlhttp.send();
     }
 }

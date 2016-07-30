@@ -1,0 +1,8 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Licensed to Bill Radja Pono <baingao@gmail.com>
+${licensePrefix}Unauthorized use is prohibited
+<#if licenseLast??>
+${licenseLast}
+</#if>
