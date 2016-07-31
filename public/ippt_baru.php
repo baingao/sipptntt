@@ -2,17 +2,18 @@
 // ** Created by Bill Radja Pono on 07/23/2016
 session_start();
 require_once "header.php";
+define("NAMA_IZIN", "ippt");
 ?>
 
 <!DOCTYPE html>
 <head>
 
-    <title>Izin Pemasukan dan Pengeluaran Ternak Baru</title>
+    <title><?php echo NAMA_IZIN ?> Baru</title>
 </head>
 <body>
     <div class="container-fluid header">
         <div id="content-title">
-            <h3>Izin Pemasukan dan Pengeluaran Ternak : Daftar Baru</h3>
+            <h3><?php echo NAMA_IZIN ?> : Daftar Baru</h3>
         </div>
         <div id="button-container" class="form-button"></div>
     </div>
@@ -28,7 +29,7 @@ require_once "header.php";
                                 "AI",
                                 "NoReg",
                                 "Tag"));
-                    $table->buildTable("ippt", TRUE);
+                    $table->buildTable(NAMA_IZIN, TRUE);
                     $_SESSION["INSERT_SQL"] = $table->getInsertSql();
                     ?>
                 </form>

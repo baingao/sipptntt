@@ -20,6 +20,9 @@ for ($i = 0; $i < count($params); $i++) {
     echo $sql;
     echo "<p>&nbsp</p>";
     echo "raw data : <br>";
+    print_r($q);
+    echo "<p>&nbsp</p>";
+    echo "exploded data : <br>";
     print_r($params);
     echo "<p>&nbsp</p>";
     echo "array list : <br>";

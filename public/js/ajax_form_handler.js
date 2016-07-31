@@ -21,7 +21,7 @@ function formClose(form_id) {
     showHome();
 }
 
-function getElementValuesById(form_name) {
+function getElementValuesById(form_name, is_for_display = false) {
     var form = document.getElementById(form_name);
     var param_values = "";
     var id_tanggal;
@@ -48,7 +48,11 @@ function getElementValuesById(form_name) {
         } else {
             if (form.elements[i].id.startsWith("text_")) { // coba handle textarea, linebreak bermasalah
                 id_text = form.elements[i].id.substring(5);
-                param_values += "':" + id_text + "'=>_" + form.elements[i].value + "_";
+                if (is_for_display == true) {
+                    param_values += "':" + id_text + "'=>_" + form.elements[i].value.replace(/<br\s*[\/]?>/gi, "\n") + "_";
+                } else {
+                    param_values += "':" + id_text + "'=>_" + form.elements[i].value.replace(/\n/g, '<br/>') + "_";
+                }
                 if (i < form.length - 1) {
                     param_values += "|";
                 }

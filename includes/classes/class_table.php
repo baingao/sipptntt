@@ -482,7 +482,7 @@ class Table {
             } else if ($column_type == "text") { // tambahan untuk input type textarea
                 echo "<div class=\"form-group\">";
                 echo "<label class=\"control-label\">" . $this->getLabel() . "</label><br>";
-                echo "<textarea rows=\"4\" id=\"text_" . $column_name . "\" class=\"form-control\" name=\"input_" . $column_name . "\">" . $value[$column_name] . "</textarea>";
+                echo "<textarea rows=\"4\" id=\"text_" . $column_name . "\" class=\"form-control\" style=\"white-space: pre;\" name=\"input_" . $column_name . "\">" . str_replace("<br/>", "\n", $value[$column_name]) . "</textarea>";
                 echo "</div>";
             } else {
                 echo "<div class=\"form-group\">";
