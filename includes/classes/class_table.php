@@ -402,7 +402,9 @@ class Table {
     function echoInsertForm($column_name, $column_type, $column_comment) {
         $this->setLabelFromComment($column_name, $column_comment);
         $this->setPlaceholderFromComment($column_comment);
-        if (isInString($column_comment, "<SELECT>")) {
+        if (isInString($column_comment, "<HIDDEN>")) {
+            echo "<input id=\"{$column_name}\" class=\"form-control\" type=\"hidden\" name=\"input_{$column_name}\">";
+        } else if (isInString($column_comment, "<SELECT>")) {
             echo "<div class=\"form-group\">";
             echo "<label class=\"control-label\">" . $this->getLabel() . "</label><br>";
             if (isInString($column_comment, "<SQL>")) {  // key value pair dari <TABLE> </TABLE> di comment
@@ -505,6 +507,10 @@ class Table {
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $total = $result['total']; //total num of rows
+        if ($total == 0) {
+            echo "Data tidak ditemukan.";
+            exit;
+        }
         $pages = ceil($total / $perpage);
         $next = $page - 1;
         $prev = $page + 1;
@@ -589,7 +595,7 @@ class Table {
                 }
             }
             if ($terbit == true) {
-                echo "<td> <button class=\"btn btn-success\" type=\"submit\" id=\"button_terbit\" name=\"button_terbit\" value=\"$row[$keyfield]\" onclick=\"dataTerbit(this.value)\"><i class=\"glyphicon glyphicon-saved\"></i></button> </td>"; // edit button
+                echo "<td> <button class=\"btn btn-success\" type=\"submit\" id=\"button_terbit\" name=\"button_terbit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-saved\"></i></button> </td>"; // edit button
             }
             if ($edit == true) {
                 echo "<td> <button class=\"btn btn-warning\" type=\"submit\" id=\"button_edit\" name=\"button_edit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-pencil\"></i></button> </td>"; // edit button

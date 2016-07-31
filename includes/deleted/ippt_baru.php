@@ -8,12 +8,12 @@ define("NAMA_IZIN", "ippt");
 <!DOCTYPE html>
 <head>
 
-    <title><?php echo NAMA_IZIN ?> Baru</title>
+    <title><?php echo strtoupper(NAMA_IZIN) ?> Baru</title>
 </head>
 <body>
     <div class="container-fluid header">
         <div id="content-title">
-            <h3><?php echo NAMA_IZIN ?> : Daftar Baru</h3>
+            <h3><?php echo strtoupper(NAMA_IZIN) ?> : Daftar Baru</h3>
         </div>
         <div id="button-container" class="form-button"></div>
     </div>
@@ -27,7 +27,6 @@ define("NAMA_IZIN", "ippt");
                     $table->setKecuali(
                             array(
                                 "AI",
-                                "NoReg",
                                 "Tag"));
                     $table->buildTable(NAMA_IZIN, TRUE);
                     $_SESSION["INSERT_SQL"] = $table->getInsertSql();

@@ -24,4 +24,9 @@ if ($result != null) {
     $key_baru = $dba->getLastInsertId();
 }
 $_SESSION["UPDATE_KEY"] = $key_baru;
-header("location: {$jenis_izin}_edit.php");
+$_SESSION["NAMA_IZIN"] = $jenis_izin;
+header("location: izin_edit.php");
+
+// Varian untuk pakai file untuk masing-masing izin
+// header("location: {$jenis_izin}_edit.php");
+

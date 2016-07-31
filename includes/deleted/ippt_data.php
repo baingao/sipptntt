@@ -35,10 +35,10 @@ if ($_POST) {
     <div id="content-main" class="content-center">
         <div class="container-fluid">
                     <?php
-                    Table::tableFromSql("SELECT AI, NoReg as 'No. Reg', Nomor as 'Nomor Izin', Tgl as 'Tanggal Terbit', "
-                            . "Nama as 'Nama Pemohon', Alamat as 'Alamat Pemohon' "
-                            . "FROM ippt "
-                            . "WHERE Tag>=0 ORDER BY AI DESC", 'ippt', 10, 'AI', [], false, false, true, true);
+                    Table::tableFromSql("SELECT AI, NoReg as 'No. Reg', Nomor as 'Nomor Izin', Tgl as 'Tanggal Terbit',"
+                            . " Nama as 'Nama Pemohon', Alamat as 'Alamat Pemohon'"
+                            . " FROM " . NAMA_IZIN
+                            . " WHERE Tag>=0 ORDER BY AI DESC", NAMA_IZIN, 10, 'AI', [], false, false, true, true);
                     ?>
         </div>
     </div>

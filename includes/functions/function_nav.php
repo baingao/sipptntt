@@ -11,6 +11,8 @@ function createMenuEntryIzin() {
     $query_list_izin = $db_list_izin->connect()->query("SELECT AI, JenisIzin, NamaIzin FROM jenisizin ORDER BY NamaIzin");
     $list_izin = $query_list_izin->fetchAll(PDO::FETCH_ASSOC);
     foreach ($list_izin as $izin) {
-        echo "<li><a href=\"" . strtolower($izin["JenisIzin"]) . "_data.php\">" . $izin["NamaIzin"] . "</a></li>";
+        $jenis_izin = strtolower($izin["JenisIzin"]);
+        echo "<li><a href=\"izin_data.php?q={$jenis_izin}\" value=\"{$jenis_izin}\">" . $izin["NamaIzin"] . "</a></li>";
+        //echo "<li><a href=\"" . strtolower($izin["JenisIzin"]) . "_data.php\">" . $izin["NamaIzin"] . "</a></li>";
     }
 }

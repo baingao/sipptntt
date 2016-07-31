@@ -12,4 +12,4 @@ include_once FUNCTIONS_PATH.DS."function_string.php";
 include_once FUNCTIONS_PATH.DS."function_nav.php";
 include_once CLASSES_PATH.DS."class_input_select.php";
 include_once CLASSES_PATH.DS."class_table.php";
-include_once CLASSES_PATH.DS."class_table_data.php";
+//include_once CLASSES_PATH.DS."class_table_data.php";
