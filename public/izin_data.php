@@ -2,6 +2,7 @@
 // ** Created by Bill Radja Pono on 07/31/2016
 
 session_start();
+//$nama_izin = $_SESSION["JENIS_IZIN"];
 $nama_izin = $_GET["q"];
 
 if ($_POST) {
@@ -18,9 +19,9 @@ if ($_POST) {
         $_SESSION["DELETE_RETURN_TO"] = $nama_izin . "_data.php";
         header("location: submit_delete.php");
     }
-} else {
-    require_once "header.php";
-}
+} 
+require_once "header.php";
+
 ?>
 <!DOCTYPE html>
 <head>
