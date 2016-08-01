@@ -1,6 +1,17 @@
 <?php
 // ** Created by Bill Radja Pono on 07/29/2016
 require_once "includes.php";
+if ($_POST) {
+    if ($_POST["input_cari_param"]!="") {
+        if ($_POST["cari_select"]=="AI") {
+            $_SESSION["PARAM_CARI_REGISTER"] = $_POST["cari_select"] . "=". $_POST["input_cari_param"];
+           
+        } else {
+            $_SESSION["PARAM_CARI_REGISTER"] = $_POST["cari_select"] . " like ". "'" . $_POST["input_cari_param"]."'";
+        }
+    }
+    header("location: register_data.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +56,17 @@ require_once "includes.php";
                         </ul>
                     </li>
                 </ul>
-                <form class="navbar-form navbar-right">
+                <form class="navbar-form navbar-right" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Nomor Registrasi...">
+                        <select class="form-control" id="cari_select" name="cari_select">
+                            <option value="AI">No. Reg</option>;
+                            <option value="NamaPemohon">Nama Pemohon</option>;
+                        </select>
                     </div>
-                    <button type="submit" class="btn btn-default">Cari</button>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="input_cari_param" placeholder="Cari...">
+                    </div>
+                    <button type="submit" class="btn btn-default" id="button_cari_register" name="button_cari_register">Cari</button>
                 </form>
             </div>
         </div>

@@ -517,34 +517,34 @@ class Table {
 
         echo "<div class=\"pagination\">";
         echo "<a href=\"?page=1\"><< </a>";
-        echo "<a href=\"?page={$next}\">| < </a>";
+        echo "<a href=\"?q={$table_name}&page={$next}\">| < </a>";
         if ($pages >= 15) {
             for ($i = 1; $i <= 5; $i++) {
                 if ($i == 1) {
-                    echo "<a href=\"?page={$i}\">| {$i} |</a>";
+                    echo "<a href=\"?q={$table_name}&page={$i}\">| {$i} |</a>";
                 } else {
-                    echo "<a href=\"?page={$i}\"> {$i} |</a>";
+                    echo "<a href=\"?q={$table_name}&page={$i}\"> {$i} |</a>";
                 }
             }
             echo "  . . .  ";
             for ($i = $pages - 4; $i <= $pages; $i++) {
                 if ($i == 1) {
-                    echo "<a href=\"?page={$i}\">| {$i} |</a>";
+                    echo "<a href=\"?q={$table_name}&page={$i}\">| {$i} |</a>";
                 } else {
-                    echo "<a href=\"?page={$i}\"> {$i} |</a>";
+                    echo "<a href=\"?q={$table_name}&page={$i}\"> {$i} |</a>";
                 }
             }
         } else {
             for ($i = 1; $i <= $pages; $i++) {
                 if ($i == 1) {
-                    echo "<a href=\"?page={$i}\">| {$i} |</a>";
+                    echo "<a href=\"?q={$table_name}&page={$i}\">| {$i} |</a>";
                 } else {
-                    echo "<a href=\"?page={$i}\"> {$i} |</a>";
+                    echo "<a href=\"?q={$table_name}&page={$i}\"> {$i} |</a>";
                 }
             }
         }
-        echo "<a href=\"?page={$prev}\"> > |</a>";
-        echo "<a href=\"?page={$pages}\"> >></a>";
+        echo "<a href=\"?q={$table_name}&page={$prev}\"> > |</a>";
+        echo "<a href=\"?q={$table_name}&page={$pages}\"> >></a>";
         echo "</div>";
 
         echo "<div class=\"table-responsive\">";
@@ -556,6 +556,10 @@ class Table {
 
         $dataset = $db->connect()->query($sql . " LIMIT {$start}, {$perpage}");
         $result_array = $dataset->fetchAll(PDO::FETCH_ASSOC);
+        if ($result_array == null) {
+            echo "Data tidak ditemukan.";
+            exit;
+        }
         $headerset = array_keys($result_array[0]);
 
         $keys = array();

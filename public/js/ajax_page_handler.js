@@ -1,5 +1,5 @@
 function showRegisterData() {
-    showPage("register_data.php", "Data Register", false);
+    showPage("register_data.php", "Register: Data", false);
 }
 
 function showRegister() {

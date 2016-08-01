@@ -8,6 +8,12 @@ and open the template in the editor.
     Author     : billrp
 */
 
+.btn-menu {
+  border-radius: 0 !important;
+  border:0px solid transparent; 
+  text-align: left;
+}
+
 body {
     padding-top: 50px;
     font-family: 'Raleway', sans-serif;
