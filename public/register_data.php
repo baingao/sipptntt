@@ -13,6 +13,12 @@ if ($_POST) {
     if (isset($_POST["button_edit"])) {
         $_SESSION["UPDATE_KEY"] = $_POST["button_edit"];
         header('location: register_edit.php');
+    } elseif (isset($_POST["button_print_register"])) {
+        $_SESSION["PRINT_KEY"] = $_POST["button_print_register"];
+        header('location: register_print.php');
+    } elseif (isset($_POST["button_print_izin"])) {
+        $_SESSION["PRINT_KEY"] = $_POST["button_print_izin"];
+        header('location: izin_print.php');   
     } elseif (isset($_POST["button_delete"])) {
         $_SESSION["DELETE_KEY"] = $_POST["button_delete"];
         $_SESSION["DELETE_TABLE_NAME"] = "register";
@@ -59,10 +65,10 @@ require_once "header.php";
             function tampilkanRegister($param) {
                 Table::tableFromSql("SELECT AI as 'No. Reg', TglDaftar as 'Tanggal Daftar', "
                         . "NamaPemohon as 'Nama Pemohon', AlamatPemohon as 'Alamat Pemohon', "
-                        . "(SELECT JenisIzin FROM jenisizin WHERE jenisizin.AI=register.idJenisIzin) as 'Kode', "
+//                        . "(SELECT JenisIzin FROM jenisizin WHERE jenisizin.AI=register.idJenisIzin) as 'Kode', "
                         . "(SELECT NamaIzin FROM jenisizin WHERE jenisizin.AI=register.idJenisIzin) as 'Nama Izin', "
                         . "Pengurusan, User FROM register "
-                        . "WHERE {$param} Tag>=0 ORDER BY AI DESC", 'register', 10, 'No. Reg', [], false, true, true, true);
+                        . "WHERE {$param} Tag>=0 ORDER BY AI DESC", 'register', 10, 'No. Reg', [], false, true, true, true, true, true);
             }
             //echo $param_cari_register;
             try {
@@ -80,4 +86,5 @@ require_once "header.php";
         });
     </script>
 </body>
+<?php require_once "footer.php"; ?>
 </html>

@@ -41,7 +41,7 @@ require_once "header.php";
                     Table::tableFromSql("SELECT AI, NoReg as 'No. Reg', Nomor as 'Nomor Izin', Tgl as 'Tanggal Terbit',"
                             . " Nama as 'Nama Pemohon', Alamat as 'Alamat Pemohon'"
                             . " FROM " . $nama_izin
-                            . " WHERE Tag>=0 ORDER BY AI DESC", $nama_izin, 10, 'AI', [], false, false, true, true);
+                            . " WHERE Tag>=0 ORDER BY AI DESC", $nama_izin, 10, 'AI', [], false, false, false, true, true, true);
                     ?>
         </div>
     </div>

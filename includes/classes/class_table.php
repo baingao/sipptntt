@@ -495,7 +495,7 @@ class Table {
         }
     }
 
-    public static function tableFromSql($sql, $table_name, $limit, $keyfield, $totalfields, $select = false, $terbit = false, $edit = false, $delete = false) {
+    public static function tableFromSql($sql, $table_name, $limit, $keyfield, $totalfields, $select = false, $terbit = false, $printregister = false, $printizin = false, $edit = false, $delete = false) {
         $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
         $max_limit = 1000;
         $perpage = 10;
@@ -568,20 +568,34 @@ class Table {
             echo "<th>Pilih</th>"; // dummy for selection
             // echo "<th> <input type=\"checkbox\" value=\"all\"> </input> </th>"; 
         }
+        
+        // start of dummy header untuk tombol
+//          if (($terbit == true) || ($printregister == true) || ($printizin == true) || ($edit == true) || ($delete == true)) {
+//            echo "<th colspan=5> Pilih Tindakan </th>"; // dummy for delete button
+//          }
+        if ($terbit == true) {
+            echo "<th>*T</th>"; // dummy for delete button
+        }
+        if ($printregister == true) {
+            echo "<th>*CR</th>"; // dummy for delete button
+        }
+        if ($printizin == true) {
+            echo "<th>*CI</th>"; // dummy for delete button
+        }
+        if ($edit == true) {
+            echo "<th>*E</th>"; // dummy for edit button
+        }
+        if ($delete == true) {
+            echo "<th>*H</th>"; // dummy for delete button
+        }
+        // end of dummy header untuk tombol
+        
         foreach ($headerset as $key) {
             echo "<th>" . $key . "</th>";
             $keys[] = $key;
             $total[$key] = 0; // initialize $total array
         }
-        if ($terbit == true) {
-            echo "<th> &nbsp </th>"; // dummy for delete button
-        }
-        if ($edit == true) {
-            echo "<th> &nbsp </th>"; // dummy for edit button
-        }
-        if ($delete == true) {
-            echo "<th> &nbsp </th>"; // dummy for delete button
-        }
+  
         echo "</tr>";
 
         //$dataset = $db->connect()->query($sql . " LIMIT {$limit}");
@@ -590,6 +604,25 @@ class Table {
             if ($select == true) {
                 echo "<td> <input type=\"radio\" id=\"button_pilih\" name=\"button_pilih\" value=\"$row[$keyfield]\"> </input> </td>"; // select checkbox
             }
+            
+            // start of tombol
+            if ($terbit == true) {
+                echo "<td> <button data-toggle='tooltip' title='Terbitkan izin' class=\"btn btn-success\" type=\"submit\" id=\"button_terbit\" name=\"button_terbit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-saved\"></i></button> </td>"; // edit button
+            }
+            if ($printregister == true) {
+                echo "<td> <button data-toggle='tooltip' title='Cetak register' class='btn btn-default' type='submit' id='button_print_register' name='button_print_register' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></button> </td>";
+            }
+            if ($printizin == true) {
+                echo "<td> <button data-toggle='tooltip' title='Cetak izin' class='btn btn-primary' type='submit' id='button_print_izin' name='button_print_izin' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></button> </td>";
+            }
+            if ($edit == true) {
+                echo "<td> <button data-toggle='tooltip' title='Edit register' class=\"btn btn-warning\" type=\"submit\" id=\"button_edit\" name=\"button_edit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-pencil\"></i></button> </td>"; // edit button
+            }
+            if ($delete == true) {
+                echo "<td> <button data-toggle='tooltip' title='Hapus register' class=\"btn btn-danger\" type=\"submit\" id=\"button_hapus\" name=\"button_delete\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-trash\"></i></button> </td>"; // delete button
+            }
+            // end of tombol
+            
             foreach ($keys as $key) {
                 echo "<td>" . $row[$key] . "</td>";
                 foreach ($totalfields as $totalfield) {
@@ -597,16 +630,7 @@ class Table {
                         $total[$key] = $total[$key] + $row[$key]; // have to initialize $total array first
                     }
                 }
-            }
-            if ($terbit == true) {
-                echo "<td> <button class=\"btn btn-success\" type=\"submit\" id=\"button_terbit\" name=\"button_terbit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-saved\"></i></button> </td>"; // edit button
-            }
-            if ($edit == true) {
-                echo "<td> <button class=\"btn btn-warning\" type=\"submit\" id=\"button_edit\" name=\"button_edit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-pencil\"></i></button> </td>"; // edit button
-            }
-            if ($delete == true) {
-                echo "<td> <button class=\"btn btn-danger\" type=\"submit\" id=\"button_hapus\" name=\"button_delete\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-trash\"></i></button> </td>"; // delete button
-            }
+            }   
             echo "</tr>";
         }
 

@@ -18,5 +18,5 @@ require_once "header.php";
     <div id="message-container"></div>
     <div id="content-main" class="content-center"></div>
 </body>
-
+<?php require_once "footer.php"; ?>
 </html>

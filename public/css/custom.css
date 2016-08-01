@@ -7,11 +7,23 @@ and open the template in the editor.
     Created on : Jul 26, 2016, 7:26:55 AM
     Author     : billrp
 */
+.footer {
+    float: bottom;
+    display: block;
+    text-align: center;
+    padding-top: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 40px;
+    background-color: #f5f5f5;
+}
 
 .btn-menu {
-  border-radius: 0 !important;
-  border:0px solid transparent; 
-  text-align: left;
+    border-radius: 0 !important;
+    border:0px solid transparent; 
+    text-align: left;
 }
 
 body {
@@ -56,6 +68,7 @@ body {
 
 .content-center {
     margin-top: 20px;
+    margin-bottom: 50px;
 }
 
 .navbar-default {
