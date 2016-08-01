@@ -50,11 +50,6 @@ foreach ($select_result as $key => $value) {
         });
     </script>
 </body>
-
-</html><?php
-
-/* 
- * Licensed to Bill Radja Pono <baingao@gmail.com>
- * Unauthorized use is prohibited
- */
+<?php require_once "footer.php"; ?>
+</html>
 

@@ -59,5 +59,5 @@ if ($_POST) {
         });
     </script>
 </body>
-
+<?php require_once "footer.php"; ?>
 </html>

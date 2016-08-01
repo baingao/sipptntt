@@ -62,5 +62,5 @@ foreach ($select_result as $key => $value) {
         });
     </script>
 </body>
-
+<?php require_once "footer.php"; ?>
 </html>
