@@ -7,9 +7,35 @@ and open the template in the editor.
     Created on : Jul 26, 2016, 7:26:55 AM
     Author     : billrp
 */
+.btn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.btn span:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.btn:hover span {
+  padding-right: 25px;
+}
+
+.btn:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
 th {
     text-align: center;
 }
+
 tr:nth-child(odd) {
     background-color: #fafafa;
 }
@@ -19,7 +45,10 @@ label, .form-control, .btn, .table, .dropdown-menu, .footer {
 }
 
 .form-cari-control {
-    margin: 5px;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: -5px;
 }
 
 .form-cari {
@@ -94,6 +123,7 @@ body {
 }
 
 .content-center {
+    display: block;
     margin-top: 20px;
     margin-bottom: 60px;
 }

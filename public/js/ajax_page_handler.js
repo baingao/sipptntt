@@ -16,9 +16,9 @@ function showHome() {
 
 function showUpdateButton() {
     document.getElementById("button-container").innerHTML =
-            '<button type="submit" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="formUpdate(this.value)">Update</button>'
-            + '<button type="reset" class="btn btn-warning btn-space" method="POST" value="insert-form" onclick="formReset(this.value)">Batal</button>'
-            + '<button type="button" class="btn btn-default btn-space" method="POST" value="insert-form" onclick="formClose(this.value)">Keluar</button>';
+            '<button type="submit" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="formUpdate(this.value)"><span><i class="glyphicon glyphicon-ok"></i> Update</span></button>'
+            + '<button type="reset" class="btn btn-warning btn-space" method="POST" value="insert-form" onclick="formReset(this.value)"><span><i class="glyphicon glyphicon-remove"></i> Batal</span></button>'
+            + '<button type="button" class="btn btn-default btn-space" method="POST" value="insert-form" onclick="formClose(this.value)"><span><i class="glyphicon glyphicon-share"></i> Keluar</span></button>';
 }
 
 function hideUpdateButton() {
@@ -27,9 +27,9 @@ function hideUpdateButton() {
 
 function showSubmitButton() {
     document.getElementById("button-container").innerHTML =
-            '<button type="submit" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="formSubmit(this.value)">Simpan</button>'
-            + '<button type="reset" class="btn btn-warning btn-space" method="POST" value="insert-form" onclick="formReset(this.value)">Batal</button>'
-            + '<button type="button" class="btn btn-default btn-space" method="POST" value="insert-form" onclick="formClose(this.value)">Keluar</button>';
+            '<button type="submit" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="formSubmit(this.value)"><span><i class="glyphicon glyphicon-ok"></i> Simpan</span></button>'
+            + '<button type="reset" class="btn btn-warning btn-space" method="POST" value="insert-form" onclick="formReset(this.value)"><span><i class="glyphicon glyphicon-remove"></i> Batal</span></button>'
+            + '<button type="button" class="btn btn-default btn-space" method="POST" value="insert-form" onclick="formClose(this.value)"><span><i class="glyphicon glyphicon-share"></i> Keluar</span></button>';
 }
 
 function hideSubmitButton() {

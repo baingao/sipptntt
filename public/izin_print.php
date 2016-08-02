@@ -12,7 +12,7 @@ require_once INCLUDES_PATH . DS . "tcpdf/tcpdf.php";
 session_start();
 
 //$noreg = $_SESSION["PRINT_KEY"];
-	$noreg=238;
+$noreg=184;
 $db = new DbConnect();
 
 $stmt = $db->connect()->query("select register.AI, register.TglDaftar, register.NamaPemohon, register.AlamatPemohon, register.TelpPemohon, register.User, 
@@ -24,8 +24,8 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $noreg = $result['AI'];
 $tgl = $result['TglDaftar'];
 $nama = $result['NamaPemohon'];
-$almt = $result['AlamatPemohon'];
-$tlp = $result ['TelpPemohon'];
+$alamat = $result['AlamatPemohon'];
+$telp = $result ['TelpPemohon'];
 $user = $result['User'];
 $namaizin = $result['NamaIzin'];
 $lama = $result['LamaPengurusan'];
@@ -61,33 +61,33 @@ $tbl = <<<EOD
         <td width="10%"></td>
         <td width="80%" border="1"><table cellpadding="5" border="0">
                 <tr>
-                    <td width="50%" colspan="2" border="1"><strong>No. Pendaftaran : _NOREG_</strong></td>
-                    <td width="50%" border="1"><strong>Tanggal : _TANGGAL_</strong></td>
+                    <td width="50%" colspan="2" border="1"><strong>No. Pendaftaran : {$noreg}</strong></td>
+                    <td width="50%" border="1"><strong>Tanggal : {$tgl}</strong></td>
                 </tr>
                 <tr>
                     <td width="30%">Nama Pemohon</td>
                     <td width="5%">:</td>
-                    <td width="65%">_NAMAPEMOHON_</td>
+                    <td width="65%">{$nama}</td>
                 </tr>
                 <tr>
                     <td width="30%">Alamat Pemohon</td>
                     <td width="5%">:</td>
-                    <td width="65%">_ALAMATPEMOHON_</td>
+                    <td width="65%">{$alamat}</td>
                 </tr>
                 <tr>
                     <td width="30%">No. Telp Pemohon</td>
                     <td width="5%">:</td>
-                    <td width="65%">_TELPPEMOHON_</td>
+                    <td width="65%">{$telp}</td>
                 </tr>
                 <tr>
                     <td colspan="3" border="1"><table cellpadding="0" border="0">
                             <tr> 
                                 <td width="20%"><strong>Nama Izin :</strong></td>
-                                <td width="80%"><strong>_NAMAIZIN_</strong></td>
+                                <td width="80%"><strong>{$namaizin}</strong></td>
                             </tr>
                             <tr> 
-                                <td width="60%">Perkiraan Waktu : _WAKTU_</td>
-                                <td width="40%" align="right">User : _USER_</td>
+                                <td width="60%">Perkiraan Waktu : {$lama}</td>
+                                <td width="40%" align="right">User : {$user}</td>
                             </tr>
                         </table>
                     </td>

@@ -1,6 +1,7 @@
-function formDelete(form_id) {
-    var elementValuesById = getElementValuesById(form_id);
-    showPageWithParam("submit_delete.php?params=", elementValuesById, "Delete data berhasil", false);
+function confirmDelete(no_reg) {
+    if (window.confirm('Hapus data dengan nomor registrasi : ' + no_reg + ' ?')==true) {
+        window.location.href = ('submit_delete.php?DELETE_KEY=' + no_reg + '&DELETE_TABLE_NAME=register&RETURN_TO=register_data.php');
+    }
 }
 
 function formUpdate(form_id) {

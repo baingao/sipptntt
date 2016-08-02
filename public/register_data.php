@@ -28,11 +28,11 @@ if ($_POST) {
     } elseif (isset($_POST["button_print_izin"])) {
         $_SESSION["PRINT_KEY"] = $_POST["button_print_izin"];
         header('location: izin_print.php');
-    } elseif (isset($_POST["button_delete"])) {
-        $_SESSION["DELETE_KEY"] = $_POST["button_delete"];
-        $_SESSION["DELETE_TABLE_NAME"] = "register";
-        $_SESSION["DELETE_RETURN_TO"] = "register_data.php";
-        header('location: submit_delete.php');
+//    } elseif (isset($_POST["button_delete"])) {
+//        $_SESSION["DELETE_KEY"] = $_POST["button_delete"];
+//        $_SESSION["DELETE_TABLE_NAME"] = "register";
+//        $_SESSION["DELETE_RETURN_TO"] = "register_data.php";
+//        header('location: submit_delete.php');
     } elseif (isset($_POST["button_terbit"])) {
         $terbit_key = $_POST["button_terbit"];
         require_once 'includes.php';
@@ -61,13 +61,13 @@ require_once "header.php";
     <title>Register Data</title>
 </head>
 <body>
-    <div class="container-fluid header">
+    <div id="content-header" class="container-fluid header" style="display: none;">
         <div id="content-title">
-            <h3>Register : Data</h3>
+            <h3 class="tlt" data-in-effect="bounceInDown">Register : Data</h3>
         </div>
         <div id="button-container" class="form-button"></div>
     </div>
-    <div id="message-container">
+    <div id="message-container" style="display: none;">
         <form class="form-inline form-cari" method="post">
             <select class="form-control form-cari-control" id="cari_select" name="cari_select">
                 <option value="AI">No. Reg</option>;
@@ -80,7 +80,7 @@ require_once "header.php";
 
         </form>
     </div>
-    <div id="content-main" class="content-center">
+    <div id="content-main" class="content-center" style="display: none;">
         <div class="container-fluid">
             <?php
 
@@ -103,9 +103,17 @@ require_once "header.php";
         </div>
     </div>
     <div id="message-container"></div>
+    <div id='div_session_write'> </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            // showSubmitButton();
+            $("#content-header").fadeIn("slow");
+            $("#content-main").fadeIn(3000);
+            $("#navbar").fadeIn(3000);
+            $("#message-container").fadeIn(4000);
+            $("footer").fadeIn(4000);
+            $(function () {
+                $('.tlt').textillate();
+            })
         });
     </script>
 </body>

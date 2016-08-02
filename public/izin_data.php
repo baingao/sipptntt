@@ -19,6 +19,11 @@ if ($_POST) {
         $_SESSION["DELETE_RETURN_TO"] = $nama_izin . "_data.php";
         header("location: submit_delete.php");
     }
+    
+    elseif (isset($_POST["button_print_izin"])) {
+        $_SESSION["PRINT_KEY"] = $_POST["button_print_izin"];
+        header('location: izin_print.php');
+    }
 } 
 require_once "header.php";
 
@@ -26,16 +31,28 @@ require_once "header.php";
 <!DOCTYPE html>
 <head>
     <title><?php echo strtoupper($nama_izin) ?></title>
+     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#content-header").fadeIn("slow");
+            $("#content-main").fadeIn(3000);
+            $("#navbar").fadeIn(3000);
+            $("#message-container").fadeIn(4000);
+            $("footer").fadeIn(4000);
+            $(function () {
+                $('.tlt').textillate();
+            })
+        });
+    </script>
 </head>
 <body>
-    <div class="container-fluid header">
+    <div id="content-header" class="container-fluid header" style="display: none;">
         <div id="content-title">
-            <h3><?php echo strtoupper($nama_izin) ?> : Data</h3>
+            <h3 class="tlt" data-in-effect="bounceInRight"><?php echo strtoupper($nama_izin) ?> : Data</h3>
         </div>
         <div id="button-container" class="form-button"></div>
     </div>
-    <div id="message-container"></div>
-    <div id="content-main" class="content-center">
+    <div id="message-container" style="display: none;"></div>
+    <div id="content-main" class="content-center" style="display: none;">
         <div class="container-fluid">
                     <?php
                     Table::tableFromSql("SELECT AI, NoReg as 'No. Reg', Nomor as 'Nomor Izin', Tgl as 'Tanggal Terbit',"
@@ -45,7 +62,7 @@ require_once "header.php";
                     ?>
         </div>
     </div>
-    <div id="message-container"></div>
+    <div id="message-container" style="display: none;"></div>
 </body>
 <?php require_once "footer.php"; ?>
 </html>

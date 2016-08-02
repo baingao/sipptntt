@@ -86,7 +86,7 @@ $tbl = <<<EOD
                                 <td width="80%"><strong>{$namaizin}</strong></td>
                             </tr>
                             <tr> 
-                                <td width="60%">Perkiraan Waktu : {$lama}</td>
+                                <td width="60%">Perkiraan Waktu : {$lama} hari</td>
                                 <td width="40%" align="right">User : {$user}</td>
                             </tr>
                         </table>

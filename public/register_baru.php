@@ -14,14 +14,14 @@ if ($_POST) {
     <title>Register Baru</title>
 </head>
 <body>
-    <div class="container-fluid header">
+    <div id="content-header" class="container-fluid header" style="display: none;">
         <div id="content-title">
-            <h3>Register : Daftar Baru</h3>
+            <h3 class="tlt" data-in-effect="rollIn">Register : Daftar Baru</h3>
         </div>
         <div id="button-container" class="form-button"></div>
     </div>
     <div id="message-container"></div>
-    <div id="content-main" class="content-center">
+    <div id="content-main" class="content-center" style="display: none;">
         <div class="container-fluid">
             <div class="columns-2">
                 <form id="insert-form" role="form">    
@@ -55,7 +55,14 @@ if ($_POST) {
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#content-header").fadeIn("slow");
+            $("#content-main").fadeIn(3000);
+            $("#navbar").fadeIn(3000);
+            $("footer").fadeIn(4000);
             showSubmitButton();
+            $(function () {
+                $('.tlt').textillate();
+            })
         });
     </script>
 </body>

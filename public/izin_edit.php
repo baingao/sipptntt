@@ -25,14 +25,14 @@ foreach ($select_result as $key => $value) {
     <title><?php echo strtoupper($_SESSION["NAMA_IZIN"]) ?> Edit</title>
 </head>
 <body>
-    <div class="container-fluid header">
+    <div id="content-header" class="container-fluid header" style="display: none;">
         <div id="content-title">
-            <h3><?php echo strtoupper($_SESSION["NAMA_IZIN"]) ?> : Edit</h3>
+            <h3 class="tlt" data-in-effect="rotateInDownRight" data-out-effect="hinge"><?php echo strtoupper($_SESSION["NAMA_IZIN"]) ?> : Edit</h3>
         </div>
         <div id="button-container" class="form-button"></div>
     </div>
     <div id="message-container"></div>
-    <div id="content-main" class="content-center">
+    <div id="content-main" class="content-center" style="display: none;">
         <div class="container-fluid">
             <div class="columns-2">
                 <form id="insert-form" role="form">    
@@ -43,10 +43,18 @@ foreach ($select_result as $key => $value) {
             </div>
         </div>
     </div>
-    <div id="message-container"></div>
+    <div id="message-container" style="display: none;"></div>
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#content-header").fadeIn("slow");
+            $("#content-main").fadeIn(3000);
+            $("#navbar").fadeIn(3000);
+            $("#message-container").fadeIn(4000);
+            $("footer").fadeIn(4000);
             showUpdateButton();
+            $(function () {
+                $('.tlt').textillate();
+            })
         });
     </script>
 </body>

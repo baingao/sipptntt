@@ -495,14 +495,14 @@ class Table {
         }
     }
 
-    public static function tableFromSql($sql, $table_name, $limit, $keyfield, $totalfields, $select = false, $terbit = false, $printregister = false, $printizin = false, $edit = false, $delete = false) {
+    public static function tableFromSql($sql, $table_name, $limit, $keyfield, $totalfields, $select = false, $terbit = false, $printregister = false, $printizin = false, $edit = false, $delete = false) { 
         $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
         $max_limit = 1000;
         $perpage = 10;
         $start = ($page > 1) ? ($page * $perpage) - $perpage : 0;
-
+        
         $db = new DbConnect();
-
+        
         $stmt = $db->connect()->query("SELECT IF(COUNT(AI)<{$max_limit}, COUNT(AI), {$max_limit}) AS total FROM {$table_name} WHERE Tag>=0");
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -515,6 +515,7 @@ class Table {
         $next = $page - 1;
         $prev = $page + 1;
 
+        // start of echo 1st pagination
         echo "<div class=\"pagination\">";
         echo "<a href=\"?q={$table_name}&page=1\"><< </a>";
         echo "<a href=\"?q={$table_name}&page={$next}\">| < </a>";
@@ -546,6 +547,7 @@ class Table {
         echo "<a href=\"?q={$table_name}&page={$prev}\"> > |</a>";
         echo "<a href=\"?q={$table_name}&page={$pages}\"> >></a>";
         echo "</div>";
+        // end of echo 1st pagination
 
         echo "<div class=\"table-responsive\">";
         echo "<form method=\"post\">";
@@ -619,7 +621,7 @@ class Table {
                 echo "<td> <button data-toggle='tooltip' title='Edit register' class=\"btn btn-warning\" type=\"submit\" id=\"button_edit\" name=\"button_edit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-pencil\"></i></button> </td>"; // edit button
             }
             if ($delete == true) {
-                echo "<td> <button data-toggle='tooltip' title='Hapus register' class=\"btn btn-danger\" type=\"submit\" id=\"button_hapus\" name=\"button_delete\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-trash\"></i></button> </td>"; // delete button
+                echo "<td> <button data-toggle='tooltip' title='Hapus register' class=\"btn btn-danger\" type=\"button\" id=\"button_hapus\" name=\"button_delete\" value=\"$row[$keyfield]\" onclick=\"confirmDelete(this.value)\"><i class=\"glyphicon glyphicon-trash\"></i></button> </td>"; // delete button
             }
             // end of tombol
             
@@ -649,8 +651,46 @@ class Table {
 //            echo "</td>";
 //        }
 //        echo "</tr></tfoot>";
+        
+        
         echo "</table>";
         echo "</form>";
+        
+        // start of echo 2nd pagination
+        echo "<div class=\"pagination\">";
+        echo "<a href=\"?q={$table_name}&page=1\"><< </a>";
+        echo "<a href=\"?q={$table_name}&page={$next}\">| < </a>";
+        if ($pages >= 15) {
+            for ($i = 1; $i <= 5; $i++) {
+                if ($i == 1) {
+                    echo "<a href=\"?q={$table_name}&page={$i}\">| {$i} |</a>";
+                } else {
+                    echo "<a href=\"?q={$table_name}&page={$i}\"> {$i} |</a>";
+                }
+            }
+            echo "  . . .  ";
+            for ($i = $pages - 4; $i <= $pages; $i++) {
+                if ($i == 1) {
+                    echo "<a href=\"?q={$table_name}&page={$i}\">| {$i} |</a>";
+                } else {
+                    echo "<a href=\"?q={$table_name}&page={$i}\"> {$i} |</a>";
+                }
+            }
+        } else {
+            for ($i = 1; $i <= $pages; $i++) {
+                if ($i == 1) {
+                    echo "<a href=\"?q={$table_name}&page={$i}\">| {$i} |</a>";
+                } else {
+                    echo "<a href=\"?q={$table_name}&page={$i}\"> {$i} |</a>";
+                }
+            }
+        }
+        echo "<a href=\"?q={$table_name}&page={$prev}\"> > |</a>";
+        echo "<a href=\"?q={$table_name}&page={$pages}\"> >></a>";
+        echo "</div>";
+  
+        // end of echo 2nd pagination
+        
         echo "</div>";
     }
 
