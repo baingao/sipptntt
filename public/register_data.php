@@ -5,12 +5,21 @@ session_start();
 
 $param_cari_register = "";
 if (isset($_SESSION["PARAM_CARI_REGISTER"])) {
-    $param_cari_register  = $_SESSION["PARAM_CARI_REGISTER"]." AND";
+    $param_cari_register = $_SESSION["PARAM_CARI_REGISTER"] . " AND";
     $_SESSION["PARAM_CARI_REGISTER"] = null;
 }
 
 if ($_POST) {
-    if (isset($_POST["button_edit"])) {
+    if (isset($_POST["button_cari_register"])) {
+        if ($_POST["input_cari_param"] != "") {
+            if ($_POST["cari_select"] == "AI") {
+                $_SESSION["PARAM_CARI_REGISTER"] = $_POST["cari_select"] . "=" . $_POST["input_cari_param"];
+            } else {
+                $_SESSION["PARAM_CARI_REGISTER"] = $_POST["cari_select"] . " like " . "'" . $_POST["input_cari_param"] . "'";
+            }
+        }
+        header("location: register_data.php");
+    } elseif (isset($_POST["button_edit"])) {
         $_SESSION["UPDATE_KEY"] = $_POST["button_edit"];
         header('location: register_edit.php');
     } elseif (isset($_POST["button_print_register"])) {
@@ -18,7 +27,7 @@ if ($_POST) {
         header('location: register_print.php');
     } elseif (isset($_POST["button_print_izin"])) {
         $_SESSION["PRINT_KEY"] = $_POST["button_print_izin"];
-        header('location: izin_print.php');   
+        header('location: izin_print.php');
     } elseif (isset($_POST["button_delete"])) {
         $_SESSION["DELETE_KEY"] = $_POST["button_delete"];
         $_SESSION["DELETE_TABLE_NAME"] = "register";
@@ -58,10 +67,23 @@ require_once "header.php";
         </div>
         <div id="button-container" class="form-button"></div>
     </div>
-    <div id="message-container"></div>
+    <div id="message-container">
+        <form class="form-inline form-cari" method="post">
+            <select class="form-control form-cari-control" id="cari_select" name="cari_select">
+                <option value="AI">No. Reg</option>;
+                <option value="NamaPemohon">Nama Pemohon</option>;
+            </select>
+
+            <input type="text" class="form-control form-cari-control" name="input_cari_param" size="50" placeholder="Cari...">
+
+            <button type="submit" class="btn btn-default form-cari-control" id="button_cari_register" name="button_cari_register">Cari</button>
+
+        </form>
+    </div>
     <div id="content-main" class="content-center">
         <div class="container-fluid">
             <?php
+
             function tampilkanRegister($param) {
                 Table::tableFromSql("SELECT AI as 'No. Reg', TglDaftar as 'Tanggal Daftar', "
                         . "NamaPemohon as 'Nama Pemohon', AlamatPemohon as 'Alamat Pemohon', "
@@ -70,10 +92,11 @@ require_once "header.php";
                         . "Pengurusan, User FROM register "
                         . "WHERE {$param} Tag>=0 ORDER BY AI DESC", 'register', 10, 'No. Reg', [], false, true, true, true, true, true);
             }
+
             //echo $param_cari_register;
             try {
                 tampilkanRegister($param_cari_register);
-            } catch(Exception $error) {
+            } catch (Exception $error) {
                 echo "Data tidak ditemukan.";
             }
             ?>

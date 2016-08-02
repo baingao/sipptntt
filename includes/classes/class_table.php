@@ -516,7 +516,7 @@ class Table {
         $prev = $page + 1;
 
         echo "<div class=\"pagination\">";
-        echo "<a href=\"?page=1\"><< </a>";
+        echo "<a href=\"?q={$table_name}&page=1\"><< </a>";
         echo "<a href=\"?q={$table_name}&page={$next}\">| < </a>";
         if ($pages >= 15) {
             for ($i = 1; $i <= 5; $i++) {

@@ -5,8 +5,9 @@
  * Unauthorized use is prohibited
  */
 
-require_once "../includes/classes/class_pdf.php";
 require_once "includes.php";
+require_once INCLUDES_PATH.DS."tcpdf/tcpdf.php";
+
 
 session_start();
 
@@ -31,39 +32,41 @@ $string = "Licensed to Bill Radja Pono";
 	$namaizin = $result['NamaIzin'];
 	$lama = $result['LamaPengurusan'];
 	
-	$pdf=new PDF();
+	$pdf=new TCPDF();
 	$pdf->AddPage();
+//        $pdf->setPrintHeader(false);
+//        $pdf->setPrintFooter(false);
 
-	$pdf->Image('img/ntt.jpg',17,5,29,29,'JPG');
+	$pdf->Image('images/ntt.jpg',17,5,29,29,'JPG');
 
-	$pdf->SetFont('Arial','B',14);
+	$pdf->SetFont('helvetica','B',14);
 	$pdf->SetXY(35,7);
 	$pdf->MultiCell(150,6,"PEMERINTAH PROVINSI NUSA TENGGARA TIMUR",0,'C',0);
 
-	$pdf->SetFont('Arial','',12);
+	$pdf->SetFont('helvetica','',12);
 	$pdf->SetXY(35,14);
 	$pdf->MultiCell(150,6,"KANTOR PELAYANAN PERIZINAN TERPADU SATU PINTU",0,'C',0);
 
-	$pdf->SetFont('Arial','',10);
+	$pdf->SetFont('helvetica','',10);
 	$pdf->SetXY(35,19);
 	$pdf->MultiCell(150,6,"Jalan Teratai No. 10 - Telp/Fax (0380) 833213",0,'C',0);
 
-	$pdf->SetFont('Arial','',10);
+	$pdf->SetFont('helvetica','',10);
 	$pdf->SetXY(35,24);
 	$pdf->MultiCell(150,6,"Email : kpptspprovntt@yahoo.com, Website : www.kpptsp-provntt.org",0,'C',0);
 
-	$pdf->Image('img/bottom.png',19,32,150,2,'PNG');
+	$pdf->Image('images/bottom.png',19,32,150,2,'PNG');
 
 	$x=34;
 	$y=10;
-	$pdf->SetFont('Arial','B',12);
+	$pdf->SetFont('helvetica','B',12);
 	$pdf->SetXY($x,38);
 	$pdf->MultiCell(100,$y,"No. Pendaftaran : {$noreg}",0,'L',0);
 
 	$pdf->SetXY($x,38);
 	$pdf->MultiCell(125,$y,"Tanggal  : {$tgl} ",1,'R',0);
 
-	$pdf->SetFont('Arial','',10);
+	$pdf->SetFont('helvetica','',10);
 	$pdf->SetXY($x,48);
 	$pdf->MultiCell(125,8,"Nama Pemohon    : {$nama} ",'Left Right','L',0);
 
@@ -74,11 +77,11 @@ $string = "Licensed to Bill Radja Pono";
 	$pdf->MultiCell(125,8,"Telepon Pemohon : {$tlp}",'Left Right','L',0);
 
 
-	$pdf->SetFont('Arial','B',10);
+	$pdf->SetFont('helvetica','B',10);
 	$pdf->SetXY($x,72);
 	$pdf->MultiCell(125,$y,"Jenis Izin  : {$namaizin}",'Left Right Top','L',0);
 
-	$pdf->SetFont('Arial','',10);
+	$pdf->SetFont('helvetica','',10);
 	$pdf->SetXY($x,82);
 	$pdf->MultiCell(125,8,"Perkiraan Waktu : {$lama} Hari ",'Left Right Bottom','L',0);
 
@@ -119,7 +122,7 @@ $string = "Licensed to Bill Radja Pono";
 
 // $pdf=new PDF_MC_Table();
 // $pdf->AddPage();
-// $pdf->SetFont('Arial','',14);
+// $pdf->SetFont('helvetica','',14);
 // //Table with 20 rows and 4 columns
 // $pdf->SetWidths(array(30,50,30,40));
 // srand(microtime()*1000000);
