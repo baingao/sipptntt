@@ -1,105 +1,124 @@
 <?php
-//============================================================+
-// File name   : example_039.php
-// Begin       : 2008-10-16
-// Last Update : 2014-01-13
-//
-// Description : Example 039 for TCPDF class
-//               HTML justification
-//
-// Author: Nicola Asuni
-//
-// (c) Copyright:
-//               Nicola Asuni
-//               Tecnick.com LTD
-//               www.tecnick.com
-//               info@tecnick.com
-//============================================================+
 
-/**
- * Creates an example PDF TEST document using TCPDF
- * @package com.tecnick.tcpdf
- * @abstract TCPDF - Example: HTML justification
- * @author Nicola Asuni
- * @since 2008-10-18
+/*
+ * Licensed to Bill Radja Pono <baingao@gmail.com>
+ * Unauthorized use is prohibited
  */
 
-// Include the main TCPDF library (search for installation path).
 require_once "includes.php";
-require_once INCLUDES_PATH.DS."tcpdf/examples/tcpdf_include.php";
+require_once INCLUDES_PATH . DS . "tcpdf/tcpdf.php";
 
-// create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-// set document information
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('TCPDF Example 039');
-$pdf->SetSubject('TCPDF Tutorial');
-$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+session_start();
 
-// set default header data
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 039', PDF_HEADER_STRING);
+//$noreg = $_SESSION["PRINT_KEY"];
+	$noreg=238;
+$db = new DbConnect();
 
-// set header and footer fonts
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$stmt = $db->connect()->query("select register.AI, register.TglDaftar, register.NamaPemohon, register.AlamatPemohon, register.TelpPemohon, register.User, 
+			jenisizin.NamaIzin, jenisizin.LamaPengurusan 
+			from register inner join jenisizin on register.idJenisIzin=jenisizin.AI
+			where register.AI={$noreg}");
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$noreg = $result['AI'];
+$tgl = $result['TglDaftar'];
+$nama = $result['NamaPemohon'];
+$almt = $result['AlamatPemohon'];
+$tlp = $result ['TelpPemohon'];
+$user = $result['User'];
+$namaizin = $result['NamaIzin'];
+$lama = $result['LamaPengurusan'];
 
-// set default monospaced font
-$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-// set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-// set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-// set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-// set some language-dependent strings (optional)
-if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-    require_once(dirname(__FILE__).'/lang/eng.php');
-    $pdf->setLanguageArray($l);
-}
-
-// ---------------------------------------------------------
-
-// add a page
+$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+$pdf->SetMargins(15, 20, 15);
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(false);
 $pdf->AddPage();
 
-// set font
-$pdf->SetFont('helvetica', 'B', 20);
+$tbl = <<<EOD
+<table cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td width="18%" align="center">
+            <img src="images/ntt.jpg" height="70px">
+        </td>
+        <td width="82%" align="center">
+            <span style="font-size: '130%'; font-weight: bold;">PEMERINTAH PROVINSI NUSA TENGGARA TIMUR</span><br>
+            <span style="font-size: '110%'; font-weight: bold;">KANTOR PELAYANAN PERIZINAN TERPADU SATU PINTU</span><br>
+            Jalan Teratai No. 10 - Telp/Fax (0380) 833213<br>
+            Email : kpptspprovntt@yahoo.com, Website : www.kpptsp-provntt.org
+        
+        </td>
+    </tr>
+    <tr>
+        <td><hr style="background-color: red; height: 1px; border: 0;"></td>
+        <td><hr style="background-color: red; height: 1px; border: 0;"></td>
+    </tr>
+</table>
 
-$pdf->Write(0, 'Example of HTML Justification', '', 0, 'L', true, 0, false, false, 0);
+<table cellpadding="0" border="0">
+    <tr>
+        <td width="10%"></td>
+        <td width="80%" border="1"><table cellpadding="5" border="0">
+                <tr>
+                    <td width="50%" colspan="2" border="1"><strong>No. Pendaftaran : _NOREG_</strong></td>
+                    <td width="50%" border="1"><strong>Tanggal : _TANGGAL_</strong></td>
+                </tr>
+                <tr>
+                    <td width="30%">Nama Pemohon</td>
+                    <td width="5%">:</td>
+                    <td width="65%">_NAMAPEMOHON_</td>
+                </tr>
+                <tr>
+                    <td width="30%">Alamat Pemohon</td>
+                    <td width="5%">:</td>
+                    <td width="65%">_ALAMATPEMOHON_</td>
+                </tr>
+                <tr>
+                    <td width="30%">No. Telp Pemohon</td>
+                    <td width="5%">:</td>
+                    <td width="65%">_TELPPEMOHON_</td>
+                </tr>
+                <tr>
+                    <td colspan="3" border="1"><table cellpadding="0" border="0">
+                            <tr> 
+                                <td width="20%"><strong>Nama Izin :</strong></td>
+                                <td width="80%"><strong>_NAMAIZIN_</strong></td>
+                            </tr>
+                            <tr> 
+                                <td width="60%">Perkiraan Waktu : _WAKTU_</td>
+                                <td width="40%" align="right">User : _USER_</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td width="10%"></td>
+    </tr>   
+    <tr>
+        <td width="10%"></td>
+        <td width="80%"></td>
+        <td width="10%"></td>
+    </tr>
+    <tr>
+        <td width="10%"></td>
+        <td width="80%"><table cellpadding="0" border="0">
+                <tr>
+                    <td width="5%">1.</td>
+                    <td width="95%">Ketik PROSES#No.Pendaftaran, kirim ke 08113864955 untuk mengetahui proses pembuatan izin.</td>
+                </tr>
+                <tr>
+                    <td width="5%">2.</td>
+                    <td width="95%">Izin dapat diambil ketika berstatus: SELESAI.</td>
+                </tr>
+            </table>
+        </td>
+        <td width="10%"></td>
+    </tr>
+</table>
+EOD;
 
-// create some HTML content
-$html = '<span style="text-align:justify;">a <u>abc</u> abcdefghijkl (abcdef) abcdefg <b>abcdefghi</b> a ((abc)) abcd <img src="images/logo_example.png" border="0" height="41" width="41" /> <img src="images/tcpdf_box.svg" alt="test alt attribute" width="80" height="60" border="0" /> abcdef abcdefg <b>abcdefghi</b> a abc abcd abcdef abcdefg <b>abcdefghi</b> a abc abcd abcdef abcdefg <b>abcdefghi</b> a <u>abc</u> abcd abcdef abcdefg <b>abcdefghi</b> a abc \(abcd\) abcdef abcdefg <b>abcdefghi</b> a abc \\\(abcd\\\) abcdef abcdefg <b>abcdefghi</b> a abc abcd abcdef abcdefg <b>abcdefghi</b> a abc abcd abcdef abcdefg <b>abcdefghi</b> a abc abcd abcdef abcdefg abcdefghi a abc abcd <a href="http://tcpdf.org">abcdef abcdefg</a> start a abc before <span style="background-color:yellow">yellow color</span> after a abc abcd abcdef abcdefg abcdefghi a abc abcd end abcdefg abcdefghi a abc abcd abcdef abcdefg abcdefghi a abc abcd abcdef abcdefg abcdefghi a abc abcd abcdef abcdefg abcdefghi a abc abcd abcdef abcdefg abcdefghi a abc abcd abcdef abcdefg abcdefghi a abc abcd abcdef abcdefg abcdefghi a abc abcd abcdef abcdefg abcdefghi<br />abcd abcdef abcdefg abcdefghi<br />abcd abcde abcdef</span>';
-
-// set core font
-$pdf->SetFont('helvetica', '', 10);
-
-// output the HTML content
-$pdf->writeHTML($html, true, 0, true, true);
-
-$pdf->Ln();
-
-// set UTF-8 Unicode font
-$pdf->SetFont('dejavusans', '', 10);
-
-// output the HTML content
-$pdf->writeHTML($html, true, 0, true, true);
-
-// reset pointer to the last page
-$pdf->lastPage();
-
-// ---------------------------------------------------------
-
-//Close and output PDF document
-$pdf->Output('example_039.pdf', 'I');
-
-//============================================================+
-// END OF FILE
-//============================================================+
+$pdf->writeHTML($tbl, true, false, false, false, '');
+$pdf->Output();
+?>
