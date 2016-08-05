@@ -1,128 +1,23 @@
-function showLampiran(no_izin) {
-    window.location.href = ('izin_lampiran_data.php?NO_IZIN=' + no_izin);
-}
-
-function confirmDelete(no_reg) {
-    if (window.confirm('Hapus data dengan nomor registrasi : ' + no_reg + ' ?')==true) {
-        window.location.href = ('submit_delete.php?DELETE_KEY=' + no_reg + '&DELETE_TABLE_NAME=register&DELETE_RETURN_TO=register_data.php');
-    }
-}
-
-function userConfirmDelete(id_user) {
-    if (window.confirm('Hapus user dengan id : ' + id_user + ' ?')==true) {
-        window.location.href = ('submit_delete.php?DELETE_KEY=' + id_user + '&DELETE_TABLE_NAME=user&DELETE_RETURN_TO=konfigurasi_user_data.php');
-    }
-}
-
-function userFormUpdate(form_id) {
-    var elementValues, id_user, username, role;
-    var array_delimiter = "|", key_delimiter = "<K>", value_delimiter = "<V>";
-    if (window.confirm('Simpan data?')==true) {
-        id_user = document.getElementById('idUser').value;
-        username = document.getElementById('username').value;
-        role = document.getElementById('role').value;
-        elementValues = key_delimiter + ":idUser" + key_delimiter + "=>" + value_delimiter + id_user + value_delimiter;
-        elementValues += array_delimiter + key_delimiter + ":username" + key_delimiter + "=>" + value_delimiter + username + value_delimiter;
-        elementValues += array_delimiter + key_delimiter + ":role" + key_delimiter + "=>" + value_delimiter + role + value_delimiter;
-        showPageWithParam("user_submit_update.php?params=", elementValues, "Update data berhasil", false);
-    }
-}
-
-function formUpdate(form_id) {
-    var elementValuesById;
-    if (window.confirm('Update data?')==true) {
-        elementValuesById = getElementValuesById(form_id);
-        showPageWithParam("submit_update.php?params=", elementValuesById, "Update data berhasil", false);
-    }
-}
-
-function userFormSubmit(form_id) {
-    var elementValues, username, password, konfirmasi_password, role;
-    var array_delimiter = "|", key_delimiter = "<K>", value_delimiter = "<V>";
-    password = document.getElementById('password').value;
-    konfirmasi_password = document.getElementById('konfirmasi_password').value;
-    if (password==konfirmasi_password) {
-        if (window.confirm('Simpan data?')==true) {
-            username = document.getElementById('username').value;
-            role = document.getElementById('role').value;
-            elementValues = key_delimiter + ":username" + key_delimiter + "=>" + value_delimiter + username + value_delimiter;
-            elementValues += array_delimiter + key_delimiter + ":password" + key_delimiter + "=>" + value_delimiter + hex_md5(password) + value_delimiter;
-            elementValues += array_delimiter + key_delimiter + ":role" + key_delimiter + "=>" + value_delimiter + role + value_delimiter;
-            showPageWithParam("user_submit_insert.php?params=", elementValues, "Insert data berhasil", false);
-        }
-    } else {
-        window.alert('Konfirmasi password salah.\n\nPassword dan Konfirmasi password harus sama.');
-    }
-}
-
-function registerFormSubmit(form_id) {
-    var elementValuesById;
-    if (window.confirm('Simpan data?')==true) {
-        elementValuesById = getElementValuesById(form_id);
-        showPageWithParam("register_submit_insert.php?params=", elementValuesById, "Registrasi berhasil", false);
-    }
-}
-
-function formReset(form_id) {
-    if (window.confirm('Batalkan pengisian data ini?')==true) {
-        document.getElementById(form_id).reset();
-    }
-}
-
-function formClose(form_id) {
-    showHome();
-}
-
-function getElementValuesById(form_name, is_for_display = false) {
-    var form = document.getElementById(form_name);
-    var param_values = "";
-    var id_tanggal, id_text;
-    var tanggal, bulan, tahun, tanggalYMD;
-    var array_delimiter = "|", key_delimiter = "<K>", value_delimiter = "<V>";
-    var i;
-    for (i = 0; i < form.length; i++) {
-        if (form.elements[i].id.startsWith("tgl_")) {
-            tanggal = form.elements[i].value;
-            id_tanggal = form.elements[i].id.substring(4);
-        } else if (form.elements[i].id.startsWith("bln_")) {
-            bulan = form.elements[i].value;
-        } else if (form.elements[i].id.startsWith("thn_")) {
-            tahun = form.elements[i].value;
-            tanggalYMD = tahun + "-" + bulan + "-" + tanggal;
-            //window.alert(id_tanggal + " : " + tahun + "-" + bulan + "-" + tanggal);
-            param_values += key_delimiter + ":" + id_tanggal + key_delimiter + "=>" + value_delimiter + tanggalYMD + value_delimiter;
-            if (i < form.length - 1) {
-                param_values += array_delimiter;
-            }
-        } else {
-            if (form.elements[i].id.startsWith("text_")) { // coba handle textarea, linebreak bermasalah
-                id_text = form.elements[i].id.substring(5);
-                if (is_for_display == true) {
-                    param_values += key_delimiter + ":" + id_text + key_delimiter + "=>" + value_delimiter + form.elements[i].value.replace(/<br\s*[\/]?>/gi, "\n") + value_delimiter;
-                } else {
-                    param_values += key_delimiter + ":" + id_text + key_delimiter + "=>" + value_delimiter + form.elements[i].value.replace(/\n/g, '<br/>') + value_delimiter;
-                }
-                if (i < form.length - 1) {
-                    param_values += array_delimiter;
-                }
-            } else {
-                param_values += key_delimiter + ":" + form.elements[i].id + key_delimiter + "=>" + value_delimiter + form.elements[i].value + value_delimiter;
-                if (i < form.length - 1) {
-                    param_values += array_delimiter;
-                }
-            }
-        }
-    }
-    //window.alert(param_values);
-    return param_values;
-}
+/*
+ * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
+ * Digest Algorithm, as defined in RFC 1321.
+ * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
+ * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
+ * Distributed under the BSD License
+ * See http://pajhome.org.uk/crypt/md5 for more info.
+ */
 
 /*
-* START OF HASH
-*/
-var hexcase = 0; 
-var b64pad  = ""; 
+ * Configurable variables. You may need to tweak these to be compatible with
+ * the server-side, but the defaults work in most cases.
+ */
+var hexcase = 0;   /* hex output format. 0 - lowercase; 1 - uppercase        */
+var b64pad  = "";  /* base-64 pad character. "=" for strict RFC compliance   */
 
+/*
+ * These are the functions you'll usually want to call
+ * They take string arguments and return either hex or base-64 encoded strings
+ */
 function hex_md5(s)    { return rstr2hex(rstr_md5(str2rstr_utf8(s))); }
 function b64_md5(s)    { return rstr2b64(rstr_md5(str2rstr_utf8(s))); }
 function any_md5(s, e) { return rstr2any(rstr_md5(str2rstr_utf8(s)), e); }
@@ -133,16 +28,25 @@ function b64_hmac_md5(k, d)
 function any_hmac_md5(k, d, e)
   { return rstr2any(rstr_hmac_md5(str2rstr_utf8(k), str2rstr_utf8(d)), e); }
 
+/*
+ * Perform a simple self-test to see if the VM is working
+ */
 function md5_vm_test()
 {
   return hex_md5("abc").toLowerCase() == "900150983cd24fb0d6963f7d28e17f72";
 }
 
+/*
+ * Calculate the MD5 of a raw string
+ */
 function rstr_md5(s)
 {
   return binl2rstr(binl_md5(rstr2binl(s), s.length * 8));
 }
 
+/*
+ * Calculate the HMAC-MD5, of a key and some data (raw strings)
+ */
 function rstr_hmac_md5(key, data)
 {
   var bkey = rstr2binl(key);
@@ -159,6 +63,9 @@ function rstr_hmac_md5(key, data)
   return binl2rstr(binl_md5(opad.concat(hash), 512 + 128));
 }
 
+/*
+ * Convert a raw string to a hex string
+ */
 function rstr2hex(input)
 {
   try { hexcase } catch(e) { hexcase=0; }
@@ -174,6 +81,9 @@ function rstr2hex(input)
   return output;
 }
 
+/*
+ * Convert a raw string to a base-64 string
+ */
 function rstr2b64(input)
 {
   try { b64pad } catch(e) { b64pad=''; }
@@ -194,17 +104,27 @@ function rstr2b64(input)
   return output;
 }
 
+/*
+ * Convert a raw string to an arbitrary string encoding
+ */
 function rstr2any(input, encoding)
 {
   var divisor = encoding.length;
   var i, j, q, x, quotient;
 
+  /* Convert to an array of 16-bit big-endian values, forming the dividend */
   var dividend = Array(Math.ceil(input.length / 2));
   for(i = 0; i < dividend.length; i++)
   {
     dividend[i] = (input.charCodeAt(i * 2) << 8) | input.charCodeAt(i * 2 + 1);
   }
 
+  /*
+   * Repeatedly perform a long division. The binary array forms the dividend,
+   * the length of the encoding is the divisor. Once computed, the quotient
+   * forms the dividend for the next step. All remainders are stored for later
+   * use.
+   */
   var full_length = Math.ceil(input.length * 8 /
                                     (Math.log(encoding.length) / Math.log(2)));
   var remainders = Array(full_length);
@@ -224,6 +144,7 @@ function rstr2any(input, encoding)
     dividend = quotient;
   }
 
+  /* Convert the remainders to the output string */
   var output = "";
   for(i = remainders.length - 1; i >= 0; i--)
     output += encoding.charAt(remainders[i]);
@@ -231,6 +152,10 @@ function rstr2any(input, encoding)
   return output;
 }
 
+/*
+ * Encode a string as utf-8.
+ * For efficiency, this assumes the input is valid utf-16.
+ */
 function str2rstr_utf8(input)
 {
   var output = "";
@@ -239,6 +164,7 @@ function str2rstr_utf8(input)
 
   while(++i < input.length)
   {
+    /* Decode utf-16 surrogate pairs */
     x = input.charCodeAt(i);
     y = i + 1 < input.length ? input.charCodeAt(i + 1) : 0;
     if(0xD800 <= x && x <= 0xDBFF && 0xDC00 <= y && y <= 0xDFFF)
@@ -247,6 +173,7 @@ function str2rstr_utf8(input)
       i++;
     }
 
+    /* Encode output as utf-8 */
     if(x <= 0x7F)
       output += String.fromCharCode(x);
     else if(x <= 0x7FF)
@@ -265,6 +192,9 @@ function str2rstr_utf8(input)
   return output;
 }
 
+/*
+ * Encode a string as utf-16
+ */
 function str2rstr_utf16le(input)
 {
   var output = "";
@@ -283,6 +213,10 @@ function str2rstr_utf16be(input)
   return output;
 }
 
+/*
+ * Convert a raw string to an array of little-endian words
+ * Characters >255 have their high-byte silently ignored.
+ */
 function rstr2binl(input)
 {
   var output = Array(input.length >> 2);
@@ -293,6 +227,9 @@ function rstr2binl(input)
   return output;
 }
 
+/*
+ * Convert an array of little-endian words to a string
+ */
 function binl2rstr(input)
 {
   var output = "";
@@ -301,8 +238,12 @@ function binl2rstr(input)
   return output;
 }
 
+/*
+ * Calculate the MD5 of an array of little-endian words, and a bit length.
+ */
 function binl_md5(x, len)
 {
+  /* append padding */
   x[len >> 5] |= 0x80 << ((len) % 32);
   x[(((len + 64) >>> 9) << 4) + 14] = len;
 
@@ -394,6 +335,9 @@ function binl_md5(x, len)
   return Array(a, b, c, d);
 }
 
+/*
+ * These functions implement the four basic operations the algorithm uses.
+ */
 function md5_cmn(q, a, b, x, s, t)
 {
   return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s),b);
@@ -415,6 +359,10 @@ function md5_ii(a, b, c, d, x, s, t)
   return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
 }
 
+/*
+ * Add integers, wrapping at 2^32. This uses 16-bit operations internally
+ * to work around bugs in some JS interpreters.
+ */
 function safe_add(x, y)
 {
   var lsw = (x & 0xFFFF) + (y & 0xFFFF);
@@ -422,11 +370,12 @@ function safe_add(x, y)
   return (msw << 16) | (lsw & 0xFFFF);
 }
 
+/*
+ * Bitwise rotate a 32-bit number to the left.
+ */
 function bit_rol(num, cnt)
 {
   return (num << cnt) | (num >>> (32 - cnt));
 }
 
-/*
- * END OF HASH
- */
+

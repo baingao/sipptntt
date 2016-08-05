@@ -449,7 +449,9 @@ class Table {
     function echoInsertFormWithValue($column_name, $column_type, $column_comment, $value) {
         $this->setLabelFromComment($column_name, $column_comment);
         $this->setPlaceholderFromComment($column_comment);
-        if (isInString($column_comment, "<SELECT>")) {
+        if (isInString($column_comment, "<HIDDEN>")) {
+            echo "<input id=\"{$column_name}\" class=\"form-control\" type=\"hidden\" name=\"input_{$column_name}\">";
+        } else if (isInString($column_comment, "<SELECT>")) {
             echo "<div class=\"form-group\">";
             echo "<label class=\"control-label\">" . $this->getLabel() . "</label><br>";
             if (isInString($column_comment, "<SQL>")) {  // key value pair dari <TABLE> </TABLE> di comment
@@ -495,14 +497,14 @@ class Table {
         }
     }
 
-    public static function tableFromSql($sql, $table_name, $limit, $keyfield, $totalfields, $select = false, $terbit = false, $printregister = false, $printizin = false, $edit = false, $delete = false) { 
+    public static function tableFromSql($sql, $table_name, $limit, $keyfield, $totalfields, $select = false, $terbit = false, $printregister = false, $printizin = false, $edit = false, $delete = false) {
         $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
         $max_limit = 1000;
         $perpage = 10;
         $start = ($page > 1) ? ($page * $perpage) - $perpage : 0;
-        
+
         $db = new DbConnect();
-        
+
         $stmt = $db->connect()->query("SELECT IF(COUNT(AI)<{$max_limit}, COUNT(AI), {$max_limit}) AS total FROM {$table_name} WHERE Tag>=0");
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -516,7 +518,9 @@ class Table {
         $prev = $page + 1;
 
         // start of echo 1st pagination
-        echo "<div class=\"pagination\">";
+        echo "<div id='pagination-upper' class='pagination'>";
+        echo "<span id='hasil-pencarian'>{$total} data ditemukan.</span>";
+        echo "<br/>";
         echo "<a href=\"?q={$table_name}&page=1\"><< </a>";
         echo "<a href=\"?q={$table_name}&page={$next}\">| < </a>";
         if ($pages >= 15) {
@@ -550,7 +554,7 @@ class Table {
         // end of echo 1st pagination
 
         echo "<div class=\"table-responsive\">";
-        echo "<form method=\"post\">";
+        echo "<form id='form-tabel' method='post'>";
 
         // LAMA
         echo "<table class=\"table table-hover\">";
@@ -566,38 +570,39 @@ class Table {
 
         $keys = array();
         $total = array();
+        $col_width = 50;
         if ($select == true) {
-            echo "<th>Pilih</th>"; // dummy for selection
+            echo "<th width={$col_width}>Pilih</th>"; // dummy for selection
             // echo "<th> <input type=\"checkbox\" value=\"all\"> </input> </th>"; 
         }
-        
+
         // start of dummy header untuk tombol
 //          if (($terbit == true) || ($printregister == true) || ($printizin == true) || ($edit == true) || ($delete == true)) {
 //            echo "<th colspan=5> Pilih Tindakan </th>"; // dummy for delete button
 //          }
         if ($terbit == true) {
-            echo "<th>*T</th>"; // dummy for delete button
+            echo "<th width={$col_width}>*T</th>"; // dummy for delete button
         }
         if ($printregister == true) {
-            echo "<th>*CR</th>"; // dummy for delete button
+            echo "<th width={$col_width}>*CR</th>"; // dummy for delete button
         }
         if ($printizin == true) {
-            echo "<th>*CI</th>"; // dummy for delete button
+            echo "<th width={$col_width}>*CI</th>"; // dummy for delete button
         }
         if ($edit == true) {
-            echo "<th>*E</th>"; // dummy for edit button
+            echo "<th width={$col_width}>*E</th>"; // dummy for edit button
         }
         if ($delete == true) {
-            echo "<th>*H</th>"; // dummy for delete button
+            echo "<th width={$col_width}>*H</th>"; // dummy for delete button
         }
         // end of dummy header untuk tombol
-        
+
         foreach ($headerset as $key) {
             echo "<th>" . $key . "</th>";
             $keys[] = $key;
             $total[$key] = 0; // initialize $total array
         }
-  
+
         echo "</tr>";
 
         //$dataset = $db->connect()->query($sql . " LIMIT {$limit}");
@@ -606,16 +611,19 @@ class Table {
             if ($select == true) {
                 echo "<td> <input type=\"radio\" id=\"button_pilih\" name=\"button_pilih\" value=\"$row[$keyfield]\"> </input> </td>"; // select checkbox
             }
-            
+
             // start of tombol
             if ($terbit == true) {
                 echo "<td> <button data-toggle='tooltip' title='Terbitkan izin' class=\"btn btn-success\" type=\"submit\" id=\"button_terbit\" name=\"button_terbit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-saved\"></i></button> </td>"; // edit button
             }
             if ($printregister == true) {
-                echo "<td> <button data-toggle='tooltip' title='Cetak register' class='btn btn-default' type='submit' id='button_print_register' name='button_print_register' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></button> </td>";
+//                echo "<td> <button href='register_print.php?PRINT_KEY={$row[$keyfield]}' data-toggle='tooltip' title='Cetak register' class='btn btn-default' type='submit' id='button_print_register' name='button_print_register' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></button> </td>";
+                echo "<td> <a href='register_print.php?PRINT_KEY={$row[$keyfield]}' target='_blank' data-toggle='tooltip' title='Cetak register' class='btn btn-default' id='button_print_register' name='button_print_register' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></a> </td>";
+            
             }
             if ($printizin == true) {
-                echo "<td> <button data-toggle='tooltip' title='Cetak izin' class='btn btn-primary' type='submit' id='button_print_izin' name='button_print_izin' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></button> </td>";
+//                echo "<td> <button href='izin_print.php?PRINT_KEY={$row[$keyfield]}' data-toggle='tooltip' title='Cetak izin' class='btn btn-primary' type='submit' id='button_print_izin' name='button_print_izin' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></button> </td>";
+                echo "<td> <a href='izin_print.php?PRINT_KEY={$row[$keyfield]}' target='_blank' data-toggle='tooltip' title='Cetak izin' class='btn btn-primary' id='button_print_izin' name='button_print_izin' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></a> </td>";
             }
             if ($edit == true) {
                 echo "<td> <button data-toggle='tooltip' title='Edit register' class=\"btn btn-warning\" type=\"submit\" id=\"button_edit\" name=\"button_edit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-pencil\"></i></button> </td>"; // edit button
@@ -624,7 +632,7 @@ class Table {
                 echo "<td> <button data-toggle='tooltip' title='Hapus register' class=\"btn btn-danger\" type=\"button\" id=\"button_hapus\" name=\"button_delete\" value=\"$row[$keyfield]\" onclick=\"confirmDelete(this.value)\"><i class=\"glyphicon glyphicon-trash\"></i></button> </td>"; // delete button
             }
             // end of tombol
-            
+
             foreach ($keys as $key) {
                 echo "<td>" . $row[$key] . "</td>";
                 foreach ($totalfields as $totalfield) {
@@ -632,7 +640,7 @@ class Table {
                         $total[$key] = $total[$key] + $row[$key]; // have to initialize $total array first
                     }
                 }
-            }   
+            }
             echo "</tr>";
         }
 
@@ -651,13 +659,13 @@ class Table {
 //            echo "</td>";
 //        }
 //        echo "</tr></tfoot>";
-        
-        
+
+
         echo "</table>";
         echo "</form>";
-        
+
         // start of echo 2nd pagination
-        echo "<div class=\"pagination\">";
+        echo "<div id='pagination-lower' class='pagination'>";
         echo "<a href=\"?q={$table_name}&page=1\"><< </a>";
         echo "<a href=\"?q={$table_name}&page={$next}\">| < </a>";
         if ($pages >= 15) {
@@ -688,10 +696,173 @@ class Table {
         echo "<a href=\"?q={$table_name}&page={$prev}\"> > |</a>";
         echo "<a href=\"?q={$table_name}&page={$pages}\"> >></a>";
         echo "</div>";
-  
+
         // end of echo 2nd pagination
-        
+
         echo "</div>";
+    }
+    
+    function paginate($table_name, $max_limit=1000, $perpage=10, $page=1) {
+        $start = ($page > 1) ? ($page * $perpage) - $perpage : 0;
+        $db = new DbConnect();
+
+        $stmt = $db->connect()->query("SELECT IF(COUNT(AI)<{$max_limit}, COUNT(AI), {$max_limit}) AS total FROM {$table_name} WHERE Tag>=0");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $total = $result['total']; //total num of rows
+        if ($total == 0) {
+            echo "Data tidak ditemukan.";
+            exit;
+        }
+        
+        $pages = ceil($total / $perpage);
+        $next = $page - 1;
+        $prev = $page + 1;
+
+        // start of echo 1st pagination
+        echo "<div id='pagination-upper' class='pagination'>";
+        echo "<span id='hasil-pencarian'>{$total} data ditemukan.</span>";
+        echo "<br/>";
+        echo "<a href=\"?q={$table_name}&page=1\"><< </a>";
+        echo "<a href=\"?q={$table_name}&page={$next}\">| < </a>";
+        if ($pages >= 15) {
+            for ($i = 1; $i <= 5; $i++) {
+                if ($i == 1) {
+                    echo "<a href=\"?q={$table_name}&page={$i}\">| {$i} |</a>";
+                } else {
+                    echo "<a href=\"?q={$table_name}&page={$i}\"> {$i} |</a>";
+                }
+            }
+            echo "  . . .  ";
+            for ($i = $pages - 4; $i <= $pages; $i++) {
+                if ($i == 1) {
+                    echo "<a href=\"?q={$table_name}&page={$i}\">| {$i} |</a>";
+                } else {
+                    echo "<a href=\"?q={$table_name}&page={$i}\"> {$i} |</a>";
+                }
+            }
+        } else {
+            for ($i = 1; $i <= $pages; $i++) {
+                if ($i == 1) {
+                    echo "<a href=\"?q={$table_name}&page={$i}\">| {$i} |</a>";
+                } else {
+                    echo "<a href=\"?q={$table_name}&page={$i}\"> {$i} |</a>";
+                }
+            }
+        }
+        echo "<a href=\"?q={$table_name}&page={$prev}\"> > |</a>";
+        echo "<a href=\"?q={$table_name}&page={$pages}\"> >></a>";
+        echo "</div>";
+    }
+
+    public static function viewFromSql($sql, $table_name, $limit, $keyfield, $totalfields, $select = false, $terbit = false, $printregister = false, $printizin = false, $edit = false, $delete = false, $footer = false) {   
+        $result_array = null;
+        $db = new DbConnect();
+        try {
+            $dataset = $db->connect()->query($sql . " LIMIT {$limit}");
+            $result_array = $dataset->fetchAll(PDO::FETCH_ASSOC);
+        } catch(Exception $e) {
+            echo "<div class='data-not-found' style='display: block; text-align: center;'>";
+            echo "Silahkan update database.";
+            echo "</div>";
+        }       
+        if ($result_array == null) { // cek kalau tidak ada data langsung keluar
+            echo "<div class='data-not-found' style='display: block; text-align: center;'>";
+            echo "Data tidak ditemukan.";
+            echo "</div>";
+            exit;
+        }
+        $headerset = array_keys($result_array[0]);
+        $keys = array();
+        $total = array();
+        
+        // start of echo table
+        echo "<div class=\"table-responsive\">";
+        echo "<form id='form-tabel' method='post'>";
+        echo "<table class=\"table table-hover\">";
+        // start of echo table header
+        echo "<tr>";
+        // start of dummy header untuk tombol
+        $col_width = 50; // set lebar kolom untuk tombol
+        if ($select == true) {
+            echo "<th><input type=\"checkbox\" value=\"all\"> </input></th>";
+        }
+        if ($terbit == true) {
+            echo "<th width={$col_width}>*T</th>"; // dummy for delete button
+        }
+        if ($printregister == true) {
+            echo "<th width={$col_width}>*CR</th>"; // dummy for delete button
+        }
+        if ($printizin == true) {
+            echo "<th width={$col_width}>*CI</th>"; // dummy for delete button
+        }
+        if ($edit == true) {
+            echo "<th width={$col_width}>*E</th>"; // dummy for edit button
+        }
+        if ($delete == true) {
+            echo "<th width={$col_width}>*H</th>"; // dummy for delete button
+        }
+        // end of dummy header untuk tombol
+        foreach ($headerset as $key) {
+            echo "<th>" . $key . "</th>";
+            $keys[] = $key;
+            $total[$key] = 0; // initialize $total array for footer here
+        }
+        // end of echo table header
+        echo "</tr>";
+        foreach ($result_array as $row) {
+            echo "<tr>";
+            // start of tombol
+            if ($select == true) {
+                echo "<td> <input type=\"radio\" id=\"button_pilih\" name=\"button_pilih\" value=\"$row[$keyfield]\"> </input> </td>"; // select checkbox
+            }
+            if ($terbit == true) {
+                echo "<td> <button data-toggle='tooltip' title='Terbitkan izin' class=\"btn btn-success\" type=\"submit\" id=\"button_terbit\" name=\"button_terbit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-saved\"></i></button> </td>"; // edit button
+            }
+            if ($printregister == true) {
+                echo "<td> <button data-toggle='tooltip' title='Cetak register' class='btn btn-default' type='submit' id='button_print_register' name='button_print_register' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></button> </td>";
+            }
+            if ($printizin == true) {
+                echo "<td> <button data-toggle='tooltip' title='Cetak izin' class='btn btn-primary' type='submit' id='button_print_izin' name='button_print_izin' value='{$row[$keyfield]}'><i class='glyphicon glyphicon-print'></i></button> </td>";
+            }
+            if ($edit == true) {
+                echo "<td> <button data-toggle='tooltip' title='Edit register' class=\"btn btn-warning\" type=\"submit\" id=\"button_edit\" name=\"button_edit\" value=\"$row[$keyfield]\"><i class=\"glyphicon glyphicon-pencil\"></i></button> </td>"; // edit button
+            }
+            if ($delete == true) {
+                echo "<td> <button data-toggle='tooltip' title='Hapus register' class=\"btn btn-danger\" type=\"button\" id=\"button_hapus\" name=\"button_delete\" value=\"$row[$keyfield]\" onclick=\"confirmDelete(this.value)\"><i class=\"glyphicon glyphicon-trash\"></i></button> </td>"; // delete button
+            }
+            // end of tombol
+            foreach ($keys as $key) {
+                echo "<td>" . $row[$key] . "</td>";
+                foreach ($totalfields as $totalfield) {
+                    if ($key == $totalfield) {
+                        $total[$key] = $total[$key] + $row[$key]; // have to initialize $total array for footer first
+                    }
+                }
+            }
+            echo "</tr>";
+        }
+        if ($footer == true) {
+            echo "<tfoot><tr>";
+            if ($select == true) {
+                echo "<td> &nbsp </td>"; // dummy for select checkbox
+            }
+            if ($edit == true) {
+                echo "<td> &nbsp </td>"; // dummy for edit button
+            }
+            foreach ($total as $value) {
+                echo "<td>";
+                if (((int) $value) or ( (float) $value)) {
+                    echo $value;
+                }
+                echo "</td>";
+            }
+            echo "</tr></tfoot>";
+        }
+        echo "</table>";
+        echo "</form>";
+        echo "</div>";
+        // end of echo table
     }
 
 }

@@ -12,8 +12,8 @@ function createMenuEntryIzin() {
     $list_izin = $query_list_izin->fetchAll(PDO::FETCH_ASSOC);
     foreach ($list_izin as $izin) {
         $jenis_izin = strtolower($izin["JenisIzin"]);
-//        echo "<li><form method='post'><button type='submit' name='btn_jenis_izin' value='{$jenis_izin}' class='btn btn-default btn-block btn-menu'>".$izin['NamaIzin']."</button></form></li>";
-        echo "<li><a href=\"izin_data.php?q={$jenis_izin}\" value=\"{$jenis_izin}\">" . $izin["NamaIzin"] . "</a></li>";
-        //echo "<li><a href=\"" . strtolower($izin["JenisIzin"]) . "_data.php\">" . $izin["NamaIzin"] . "</a></li>";
+        $nama_izin = $izin["NamaIzin"];
+        $js_nama_izin = str_replace(" ", "-", $nama_izin);
+        echo "<li><a href='izin_data.php?NAMA_IZIN={$jenis_izin}&NAMA_IZIN_PANJANG={$js_nama_izin}' value='{$jenis_izin}'>{$nama_izin}</a></li>";
     }
 }

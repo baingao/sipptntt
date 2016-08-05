@@ -54,7 +54,7 @@ require_once "includes.php";
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i> Konfigurasi <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a id="konfigurasi_umum" name="konfigurasi_umum" role="button" aria-haspopup="true" aria-expanded="false" href="konfigurasi_umum.php">Umum<span class="sr-only"></span></a></li>
-                            <li><a id="konfigurasi_umum" name="konfigurasi_user" role="button" aria-haspopup="true" aria-expanded="false" href="konfigurasi_user.php">Manajemen User<span class="sr-only"></span></a></li>
+                            <li><a id="konfigurasi_umum" name="konfigurasi_user" role="button" aria-haspopup="true" aria-expanded="false" href="konfigurasi_user_data.php">Manajemen User<span class="sr-only"></span></a></li>
                             <li role="separator" class="divider"></li>
                             <li><a id="konfigurasi_daerah" name="konfigurasi_daerah" role="button" aria-haspopup="true" aria-expanded="false" href="konfigurasi_daerah.php">Data Daerah<span class="sr-only"></span></a></li>
                             <li><a id="konfigurasi_kuota_ternak" name="konfigurasi_kuota_ternak" role="button" aria-haspopup="true" aria-expanded="false" href="konfigurasi_kuota_ternak.php">Kuota Ternak<span class="sr-only"></span></a></li>

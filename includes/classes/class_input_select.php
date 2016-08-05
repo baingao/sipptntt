@@ -245,5 +245,65 @@ class InputSelect {
 
         echo $result;
     }
+    
+    public static function parseDate($value) {
+        $fulldate = date_parse($value);
+        $day = $fulldate["day"];
+        $month = $fulldate["month"];
+        $year = $fulldate["year"];
+        
+		if ($month==1){
+			$month = "Januari";
+		}
+		
+		else if ($month==2){
+			$month = "Februari";
+		}
+		
+		else if ($month==3){
+			$month = "Maret";
+		}
+		
+		else if ($month==4){
+			$month = "April";
+		}
+		
+		else if ($month==5){
+			$month = "Mei";
+		}
+		
+		else if ($month==6){
+			$month = "Juni";
+		}
+		
+        else if ($month==7){
+			$month = "Juli";
+		}
+		
+		else if ($month==8){
+			$month = "Agustus";
+		}
+		
+		else if ($month==9){
+			$month = "September";
+		}
+		
+		else if ($month==10){
+			$month = "Oktober";
+		}
+		
+		else if ($month==11){
+			$month = "November";
+		}
+		
+		else if ($month=12){
+			$month = "Desember";
+		}
+		
+		
+        $result = $day." ".$month." ".$year ;
+		return $result;
+    }
+
 
 }

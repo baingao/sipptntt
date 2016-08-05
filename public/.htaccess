@@ -1,4 +1,6 @@
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)?$ $1.php
+RewriteEngine On    # Turn on the rewriting engine
+#RewriteRule ^register/baru/?$ register_baru.php [NC,L]
+#RewriteRule ^register/edit/?$ register_edit.php [NC,L]
+#RewriteRule ^register/data/?$ register_data.php [NC,L]
+FallbackResource index.php
+# RewriteRule ^register/([0-9]+)$ register_edit.php?UPDATE_KEY=$1 [NC,L]

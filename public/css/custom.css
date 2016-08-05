@@ -7,6 +7,12 @@ and open the template in the editor.
     Created on : Jul 26, 2016, 7:26:55 AM
     Author     : billrp
 */
+.message-container {
+    display: block;
+    display: none;
+    text-align: center;
+}
+
 .btn span {
   cursor: pointer;
   display: inline-block;
@@ -33,7 +39,7 @@ and open the template in the editor.
 }
 
 th {
-    text-align: center;
+    /*text-align: center;*/
 }
 
 tr:nth-child(odd) {
@@ -146,6 +152,29 @@ body {
 
 .columns-1 {
 
+}
+
+.columns-login-2 {
+    -webkit-column-clount: 2;
+    -webkit-column-width: 300px;
+    -webkit-column-gap: 40px;
+    -webkit-column-rule-style: none;
+    -webkit-column-rule-width: 1px;
+    -webkit-column-rule-color: #cccccc;
+
+    -moz-column-count: 2;
+    -moz-column-width: 300px;
+    -moz-column-gap: 40px;
+    -moz-column-rule-style: none;
+    -moz-column-rule-width: 1px;
+    -moz-column-rule-color: #cccccc;
+
+    column-count: 2;
+    column-width: 300px;
+    column-gap: 40px;
+    column-rule-style: none;
+    column-rule-width: 1px;
+    column-rule-color: #cccccc;        
 }
 
 .columns-2 {

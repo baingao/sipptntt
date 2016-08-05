@@ -5,13 +5,13 @@
  * Unauthorized use is prohibited
  */
 
-require_once "includes.php";
+require_once 'includes.php';
 require_once INCLUDES_PATH . DS . "tcpdf/tcpdf.php";
 
 
 session_start();
 
-$noreg = $_SESSION["PRINT_KEY"];
+$noreg = $_GET["PRINT_KEY"];
 
 $db = new DbConnect();
 
@@ -121,4 +121,5 @@ EOD;
 
 $pdf->writeHTML($tbl, true, false, false, false, '');
 $pdf->Output();
+//echo "<html><head><title>Cetak Bukti Registrasi</title></head></html>";
 ?>

@@ -8,11 +8,11 @@ if (isset($_SESSION['ID_USER'])) {
     header('location: index.php');
 }
 require_once "header.php";
-define("TABLE_NAME", "register");
+define("TABLE_NAME", "config");
 
-$param = $_GET["UPDATE_KEY"];
+$param = 1; // *** ingat cek di tabel config -> AI harus =1
 $table = new Table();
-$table->setKecuali(array("NoReg", "Tag", "JK", "TglTerbit", "TglDaftar", "TglCek", "TglKadaluarsa", "TglDaftarUlang", "TglKadaluarsa", "JumlahDaftarUlang", "TglUpdate", "TglSelesai", "Proses", "User", "TagSms"));
+$table->setKecuali(array("Version", "VersionControl"));
 $table->buildTable(TABLE_NAME, FALSE);
 $_SESSION["SELECT_SQL"] = $table->getSelectSql(); $sql_select = $_SESSION["SELECT_SQL"];
 $_SESSION["UPDATE_SQL"] = $table->getUpdateSql(); $sql_update = $_SESSION["UPDATE_SQL"];
@@ -27,12 +27,12 @@ foreach ($select_result as $key => $value) {
 
 <!DOCTYPE html>
 <head>
-    <title>Register Edit</title>
+    <title>Konfigurasi Umum</title>
 </head>
 <body>
     <div id="content-header" class="container-fluid header" style="display: none;">
         <div id="content-title">
-            <h3 class="tlt" data-in-effect="bounceInDown">Register : Edit</h3>
+            <h3 class="tlt" data-in-effect="bounceInDown">Konfigurasi Umum</h3>
         </div>
         <div id="button-container" class="form-button"></div>
     </div>
@@ -61,13 +61,6 @@ foreach ($select_result as $key => $value) {
                 $('.tlt').textillate();
             })
             showUpdateButton();
-            var idKab;
-            var idKec;
-            var idKel;
-            idKab = document.getElementById('idKab').value;
-            idKec = <?php echo json_encode($row_value['idKec']); ?>;
-            idKel = <?php echo json_encode($row_value['idKel']); ?>;
-            showKecKel(idKab, idKec, idKel);
         });
     </script>
 </body>
