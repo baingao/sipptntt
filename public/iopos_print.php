@@ -5,8 +5,6 @@ require_once INCLUDES_PATH . DS . "tcpdf/examples/tcpdf_include.php";
 session_start();
 
 $noreg=$_GET["PRINT_KEY"];
-//$noreg=$_SESSION["PRINT_KEY"];
-//$noreg = 238;
 $db = new DbConnect();
 
 $stmt = $db->connect()->query("select iopos.NoReg, iopos.NamaOrganisasi, iopos.AlamatOrganisasi, iopos.Nomor, iopos.Tgl, iopos.NoRekomendasi, 

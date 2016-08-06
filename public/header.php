@@ -63,6 +63,7 @@ require_once "includes.php";
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i> User <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li><a id="user_ganti_password" name="user_ganti_password" role="button" aria-haspopup="true" aria-expanded="false" href="user_ganti_password.php">Ganti Password<span class="sr-only"></span></a></li>
                             <li><a id="user_logout" name="user_logout" role="button" aria-haspopup="true" aria-expanded="false" href="logout.php">Logout<span class="sr-only"></span></a></li>
                         </ul>
                     </li>    

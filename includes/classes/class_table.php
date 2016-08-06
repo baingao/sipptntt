@@ -702,7 +702,7 @@ class Table {
         echo "</div>";
     }
     
-    function paginate($table_name, $max_limit=1000, $perpage=10, $page=1) {
+    function paginate($data, $max_limit=1000, $perpage=10, $page=1) {
         $start = ($page > 1) ? ($page * $perpage) - $perpage : 0;
         $db = new DbConnect();
 

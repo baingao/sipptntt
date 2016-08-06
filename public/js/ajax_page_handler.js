@@ -1,3 +1,19 @@
+function showRegisterData() {
+    showPage("register_data.php", "Register: Data", false);
+}
+
+function showRegister() {
+    showPage("register_baru.php", "Register : Daftar Baru", true);
+}
+
+function showIPPT() {
+    showPage("ippt_baru.php", "Izin Pemasukan dan Pengeluaran Ternak", true)
+}
+
+function showHome() {
+    showPage("home.php", "Sistem Informasi Pelayanan Perizinan Terpadu<br>Provinsi Nusa Tenggara Timur", false);
+}
+
 function showCustomTernakSelect(id_kab) {
     if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
@@ -42,20 +58,12 @@ function showLampiranButton(nama_izin, nama_izin_panjang, param_id=0) {
     xmlhttp.send();
 }
 
-function showRegisterData() {
-    showPage("register_data.php", "Register: Data", false);
-}
-
-function showRegister() {
-    showPage("register_baru.php", "Register : Daftar Baru", true);
-}
-
-function showIPPT() {
-    showPage("ippt_baru.php", "Izin Pemasukan dan Pengeluaran Ternak", true)
-}
-
-function showHome() {
-    showPage("home.php", "Sistem Informasi Pelayanan Perizinan Terpadu<br>Provinsi Nusa Tenggara Timur", false);
+function showUserGantiPasswordUpdateButton() {
+    var html;
+    html = '<button type="submit" class="btn btn-success btn-space" method="POST" value="insert-form" onclick="userGantiPasswordFormUpdate(this.value)"><span><i class="glyphicon glyphicon-ok"></i> Update</span></button>'
+            + '<button type="reset" class="btn btn-warning btn-space" method="POST" value="insert-form" onclick="formReset(this.value)"><span><i class="glyphicon glyphicon-remove"></i> Batal</span></button>';
+    document.getElementById("button-container").innerHTML = html;
+    document.getElementById("lower-button-container").innerHTML = html;
 }
 
 function showUserUpdateButton() {

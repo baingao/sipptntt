@@ -12,6 +12,29 @@ function userConfirmDelete(id_user) {
     if (window.confirm('Hapus user dengan id : ' + id_user + ' ?')==true) {
         window.location.href = ('submit_delete.php?DELETE_KEY=' + id_user + '&DELETE_TABLE_NAME=user&DELETE_RETURN_TO=konfigurasi_user_data.php');
     }
+
+}
+function userGantiPasswordFormUpdate(form_id) {
+    var elementValues, id_user, username, role;
+    var array_delimiter = "|", key_delimiter = "<K>", value_delimiter = "<V>";
+    if (window.confirm('Simpan data?')==true) {
+        id_user = document.getElementById('idUser').value;
+        password_lama = document.getElementById('password_lama').value;
+        token = document.getElementById('token').value;
+        password_baru = document.getElementById('password_baru').value;
+        konfirmasi_password = document.getElementById('konfirmasi_password').value;
+        if (hex_md5(password_lama)==token) {
+            if (password_baru==konfirmasi_password) {
+                elementValues = key_delimiter + ":idUser" + key_delimiter + "=>" + value_delimiter + id_user + value_delimiter;
+                elementValues += array_delimiter + key_delimiter + ":password" + key_delimiter + "=>" + value_delimiter + hex_md5(password_baru)+ value_delimiter;
+                showPageWithParam("user_submit_ganti_password.php?params=", elementValues, "Update data berhasil", false);
+            } else {
+                window.alert('Konfirmasi password tidak sama dengan password baru.');
+            }
+        } else {
+            window.alert('Password salah.');
+        }
+    }
 }
 
 function userFormUpdate(form_id) {

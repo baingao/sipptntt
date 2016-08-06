@@ -21,7 +21,8 @@ if (isset($_POST['btn-login'])) {
         $_SESSION['API_KEY'] = $User->getApiKey();
         $_SESSION['LOGIN_TIME'] = $User->getLoginTime();
         $_SESSION['ROLE'] = $User->getRole();
-        $User->redirect('register_data.php');
+        $User->redirect('register');
+//        $User->redirect('register_data.php');
     } else {
         $error = "Kombinasi nama dan password salah !";
     }
