@@ -12,6 +12,6 @@ $stmt = $db->connect()->query("SELECT register.AI, register.idJenisIzin, jenisiz
         . " WHERE register.AI={$print_key}");
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($result!=null) {
-    $nama_izin = strtolower($result['JenisIzin']);
-    header("location: {$nama_izin}_print.php?PRINT_KEY={$print_key}");
+    $jenis_izin = strtolower($result['JenisIzin']);
+    header("location: {$jenis_izin}_print.php?PRINT_KEY={$print_key}");
 }
