@@ -15,9 +15,11 @@ if ($lampiran != null) {
         $tabel_lampiran = getStringBetween($lampiran['COLUMN_COMMENT'], '<LAMPIRAN>', '</LAMPIRAN>');
         $array_lampiran = explode(",", getStringBetween($lampiran['COLUMN_COMMENT'], '<LAMPIRAN>', '</LAMPIRAN>'));
         echo "<form id='form-button-lampiran' class='form-inline' method='post'>";
+        $jumlah_lampiran = count($array_lampiran);
         for ($i = 0; $i < count($array_lampiran); $i++) {
             $j = $i + 1;
-            if ($j>1) { 
+            if ($jumlah_lampiran>1) { 
+                echo "<button onclick='showLampiranIzin(\"".$nama_izin."\", \"".$js_nama_izin_panjang."\", this.value, \"".$param_id."\")' class='btn btn-primary' style='margin-right: 10px' type='button' id='{$array_lampiran[$i]}' name='{$array_lampiran[$i]}' value='{$array_lampiran[$i]}'><span>Lampiran {$j}</span></button>";
 //                echo "<button onclick='showLampiranIzin(this.value)' class='btn btn-primary btn-space' style='margin-right: 10px' type='button' id='{$array_lampiran[$i]}' name='{$array_lampiran[$i]}' value='{$array_lampiran[$i]}'><span>Lampiran {$j}</span></button>";
             } else {              
                 echo "<button onclick='showLampiranIzin(\"".$nama_izin."\", \"".$js_nama_izin_panjang."\", this.value, \"".$param_id."\")' class='btn btn-primary btn-block' style='margin-right: 10px' type='button' id='{$array_lampiran[$i]}' name='{$array_lampiran[$i]}' value='{$array_lampiran[$i]}'><span>L a m p i r a n</span></button>";
