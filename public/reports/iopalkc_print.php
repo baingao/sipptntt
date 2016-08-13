@@ -1,11 +1,35 @@
 <?php
+//============================================================+
+// File name   : example_048.php
+// Begin       : 2009-03-20
+// Last Update : 2013-05-14
+//
+// Description : Example 048 for TCPDF class
+//               HTML tables and table headers
+//
+// Author: Nicola Asuni
+//
+// (c) Copyright:
+//               Nicola Asuni
+//               Tecnick.com LTD
+//               www.tecnick.com
+//               info@tecnick.com
+//============================================================+
 
-require_once "includes.php";
-require_once INCLUDES_PATH.DS."tcpdf/examples/tcpdf_include.php";
+/**
+ * Creates an example PDF TEST document using TCPDF
+ * @package com.tecnick.tcpdf
+ * @abstract TCPDF - Example: HTML tables and table headers
+ * @author Nicola Asuni
+ * @since 2009-03-20
+ */
+
+// Include the main TCPDF library (search for installation path).
+require_once "../includes.php";
+require_once INCLUDES_PATH . DS . "tcpdf/examples/tcpdf_include.php";
 session_start();
 
-	$noreg=$_GET["PRINT_KEY"];
-//	$noreg=241;
+$noreg=$_GET["PRINT_KEY"];
 	$db = new DbConnect();
 	
 	$stmt = $db->connect()->query("select iopalkc.NoReg, iopalkc.Nomor, iopalkc.Tgl, iopalkc.RekNakertransKabNo, iopalkc.RekNakertransKabTgl, 
@@ -53,10 +77,10 @@ $pdf->SetMargins(20,30,20);
 $pdf->AddPage('P', $resolution);
 
 // convert TTF font to TCPDF format and store it on the fonts folder
-//$fontname = TCPDF_FONTS::addTTFfont('fonts/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
+//$fontname = TCPDF_FONTS::addTTFfont('font/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
 
 // use the font
-$pdf->SetFont('helvetica', '',9 );
+$pdf->SetFont('helvetica', 'B',9 );
 
 //$pdf->SetFont('Tahoma', '', 9);
 
@@ -103,13 +127,13 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // -----------------------------------------------------------------------------
 // convert TTF font to TCPDF format and store it on the fonts folder
-//$fontname = TCPDF_FONTS::addTTFfont('fonts/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
+//$fontname = TCPDF_FONTS::addTTFfont('font/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
 
 // use the font
 //$pdf->SetFont($fontname, '', 9, '', false);
 $pdf->SetFont('helvetica', '',8 );
 $tbl = <<<EOD
-<table cellspacing="0" cellpadding="0" border="0">
+<table cellspacing="0" cellpadding="1" border="0">
 
     <tr>
 		<td width="18%" align="Left">MENIMBANG</td>
@@ -194,7 +218,7 @@ $tbl = <<<EOD
 	<tr>
 		<td width="18%" align="Left">MEMPERHATIKAN</td>
 		<td width="2%" align="Center">:</td>
-		<td width="2%" align="Center">7.</td>
+		<td width="2%" align="Center"></td>
 		<td width="78%" align="Justify">
 			<p >Surat Direktur Utama Pelaksana Penempatan Tenaga Kerja Indonesia  {$namaperusahaan}   Nomor :  {$surperusahaanno} tanggal {$surperusahaantgl}, Perihal {$surperusahaanhal}.</p>
 		</td>
@@ -310,7 +334,7 @@ $stmt = $db->connect()->query("select config.NamaTTD1, config.NIPTTD1, config.Pa
 	$pangkatkepala = $result['PangkatTTD1'];
 	
 // convert TTF font to TCPDF format and store it on the fonts folder
-//$fontname = TCPDF_FONTS::addTTFfont('fonts/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
+//$fontname = TCPDF_FONTS::addTTFfont('font/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
 
 // use the font
 //$pdf->SetFont($fontname, '', 8, '', false);
@@ -377,7 +401,7 @@ $tbl = <<<EOD
 	<tr>
 		<td width="85%" align="Center">
 
-			<img style="margin-top:5px;" src="images/pasfoto.png" height="50">
+			<img style="margin-top:5px;" src="../images/pasfoto.png" height="40">
 		</td>
 		<td width="15%" align="center"></td>
     </tr>
@@ -417,7 +441,7 @@ EOD;
 $pdf->writeHTML($tbl, true, false, false, false, '');
 // -----------------------------------------------------------------------------
 // convert TTF font to TCPDF format and store it on the fonts folder
-//$fontname = TCPDF_FONTS::addTTFfont('fonts/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
+//$fontname = TCPDF_FONTS::addTTFfont('font/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
 
 // use the font
 //$pdf->SetFont($fontname, '', 7, '', false);

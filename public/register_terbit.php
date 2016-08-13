@@ -25,13 +25,13 @@ $stmt = null;
 if ($result != null) {
     $update_key = $result["AI"];
 } else {
+    $stmt = $db->connect()->query("SELECT Tembusan FROM jenisizin WHERE AI={$register_data['idJenisIzin']}");
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $dba = new DbConnect();
-    $stmta = $dba->connect()->prepare("INSERT INTO ".$nama_izin." (NoReg, Tgl) VALUES (?, (SELECT CURDATE()))");
-    $stmta->execute(array($terbit_key));
+    $stmta = $dba->connect()->prepare("INSERT INTO ".$nama_izin." (NoReg, Tgl, Nama, Alamat, Tembusan) VALUES (?, (SELECT CURDATE()), ?, ?, ?)");
+    $stmta->execute(array($terbit_key, $register_data['NamaPemohon'], $register_data['AlamatPemohon'], $result['Tembusan']));
     $update_key = $dba->getLastInsertId();
 }
-//$_SESSION["UPDATE_KEY"] = $key_baru;
-//$_SESSION["NAMA_IZIN"] = $jenis_izin;
 header("location: izin_edit.php?NAMA_IZIN={$nama_izin}&NAMA_IZIN_PANJANG={$js_nama_izin_panjang}&UPDATE_KEY={$update_key}");
 
 // Varian untuk pakai file untuk masing-masing izin

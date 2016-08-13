@@ -1,13 +1,13 @@
 <?php
 // konfigurasi built type
 // DEBUG atau RELEASE
-define('BUILD', "DEBUG");
+define('BUILD', "RELEASE");
 
 // konfigurasi database
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'root');
+define('DB_PASSWORD', 'root'); 
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'dbsipptweb');
+define('DB_NAME', 'dbsipptbaru');
 
 // konfigurasi path
 define('HOST', 'http://localhost/crud');

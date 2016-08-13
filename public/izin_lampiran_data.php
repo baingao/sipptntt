@@ -23,7 +23,6 @@ $nama_izin_parent = $_GET["NAMA_IZIN"];
 $js_nama_izin_panjang = $_GET["NAMA_IZIN_PANJANG"];
 $nama_izin_panjang = str_replace("-", " ", $_GET["NAMA_IZIN_PANJANG"]);
 $param_id = $_GET["PARAM_ID"];
-//$_SESSION["NO_IZIN_LAMPIRAN"] = $no_izin;
 
 switch ($nama_izin_lampiran) {
     case "ipptlamp": $sql_select = "SELECT ipptlamp.AI, ipptlamp.NoIPPT AS 'No. Reg',"
@@ -32,7 +31,26 @@ switch ($nama_izin_lampiran) {
                                     . " FROM ipptlamp LEFT JOIN ipptquota "
                                     . " ON ipptquota.AI=ipptlamp.idTernak "
                                     . " WHERE ipptlamp.NoIPPT = {$no_izin}"
-                                    . " AND ipptlamp.Tag>=0 ORDER BY ipptlamp.AI DESC";
+                                    . " AND ipptlamp.Tag>=0 ORDER BY ipptlamp.AI";
+        break;
+    
+    case "ipptdocdtl" : $sql_select = "SELECT AI, NoIPPTDOC AS 'No. Reg', JenisKomoditi AS 'Jenis Komoditi',"
+                                    . " Satuan, Jumlah"
+                                    . " FROM ipptdocdtl WHERE NoIPPTDOC = {$no_izin}"
+                                    . " AND Tag>=0 ORDER BY AI";
+        break;
+    
+    case "karkasdtl" : $sql_select = "SELECT AI, NoKARKAS AS 'No. Reg', JenisKomoditi AS 'Jenis Komoditi',"
+                                    . " Satuan, Jumlah, Keterangan"
+                                    . " FROM ipptdocdtl WHERE NoKARKAS = {$no_izin}"
+                                    . " AND Tag>=0 ORDER BY AI";
+        break;
+    
+    case "pptkadtl" : $sql_select = "SELECT AI, NoPPTKA AS 'No. Reg', JenisJabatan AS 'Jenis Jabatan',"
+                                    . " TahunPenggunaan AS 'Tahun Penggunaan',"
+                                    . " BerlakuSampai AS 'Berlaku Sampai', Keterangan"
+                                    . " FROM pptkadtl WHERE NoPPTKA = {$no_izin}"
+                                    . " AND Tag>=0 ORDER BY AI";
         break;
 }
 
@@ -48,7 +66,6 @@ if ($_POST) {
         $stmt->execute();
         $update_key_lampiran = $db->getLastInsertId();
         header("location: izin_lampiran_edit.php?NAMA_IZIN_LAMPIRAN={$nama_izin_lampiran}&UPDATE_KEY_LAMPIRAN={$update_key_lampiran}&NAMA_IZIN={$nama_izin_parent}&NAMA_IZIN_PANJANG={$js_nama_izin_panjang}&PARAM_ID={$param_id}");
-        // header("location: izin_lampiran_edit.php?NAMA_IZIN_LAMPIRAN={$nama_izin_lampiran}&UPDATE_KEY_LAMPIRAN={$update_key_lampiran}&NAMA_IZIN={$nama_izin_parent}&NAMA_IZIN_PANJANG={$js_nama_izin_panjang}");
     } elseif (isset($_POST["button_delete"])) {
         $_SESSION["DELETE_KEY"] = $_POST["button_delete"];
         $_SESSION["DELETE_TABLE_NAME"] = $nama_izin_lampiran;
@@ -94,17 +111,7 @@ require_once "header.php";
     <div id="message-container" style="display: none;"></div>
     <div id="content-main" class="content-center" style="display: none;">
         <?php
-            Table::tableFromSql($sql_select, $nama_izin_lampiran, 10, 'AI', [], false, false, false, false, true, true);
-//        $spec = "";
-//        if (strcmp(strtolower($nama_izin_lampiran), 'ippt')) {
-//            $spec = "(SELECT Ternak FROM ipptquota WHERE ipptquota.AI=ipptlamp.idTernak)"
-//                    . " AS 'Nama Ternak',";
-//        }
-//        Table::tableFromSql("SELECT AI, NoIPPT as 'No. Reg',"
-//                . " {$spec}"
-//                . " Jumlah, Kelamin, Ket AS 'Keterangan'"
-//                . " FROM " . $nama_izin_lampiran
-//                . " WHERE No{$nama_izin_parent}={$no_izin} AND Tag>=0 ORDER BY AI DESC", $nama_izin_lampiran, 10, 'AI', [], false, false, false, false, true, true);
+            Table::lampiranFromSql($sql_select, $nama_izin_lampiran, 10, 'AI', [], false, false, false, false, true, true);
         ?>
     </div>
     <div id="message-container" class='message-container'></div>

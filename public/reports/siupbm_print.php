@@ -25,12 +25,11 @@
  */
 
 // Include the main TCPDF library (search for installation path).
-require_once "includes.php";
-require_once INCLUDES_PATH.DS."tcpdf/examples/tcpdf_include.php";
+require_once "../includes.php";
+require_once INCLUDES_PATH . DS . "tcpdf/examples/tcpdf_include.php";
 session_start();
-	
-	//$noreg=$_SESSION["PRINT_KEY"];
-	$noreg=239;
+
+$noreg=$_GET["PRINT_KEY"];
 	$db = new DbConnect();
 	
 	$stmt = $db->connect()->query("select siupbm.NoReg,  siupbm.Tgl, siupbm.Nomor, siupbm.RekDishubProvNo, siupbm.RekDishubProvTgl, siupbm.SurPerusahaanNo,

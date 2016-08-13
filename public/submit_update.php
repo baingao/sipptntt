@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once "includes.php";
 if (isset($_SESSION['ID_USER'])) {
@@ -18,30 +19,28 @@ for ($i = 0; $i < count($params); $i++) {
     $value = getStringBetween($params[$i], VALUE_DELIMITER, VALUE_DELIMITER);
     $array_list[$key] = $value;
 }
-?>
-<div class="container-fluid">
-    <?php
-    if (strtoupper(BUILD) == "DEBUG") {
-        echo "update sql : <br>";
-        echo $sql;
-        echo "<p>&nbsp</p>";
-        echo "raw data : <br>";
-        print_r($q);
-        echo "<p>&nbsp</p>";
-        echo "exploded data : <br>";
-        print_r($params);
-        echo "<p>&nbsp</p>";
-        echo "array list : <br>";
-        print_r($array_list);
-    }
 
-    $stmt = $db->connect()->prepare($sql);
-    $stmt->execute($array_list);
+$stmt = $db->connect()->prepare($sql);
+$stmt->execute($array_list);
+$affected_rows = $stmt->rowCount();
+$stmt = null;
+header("location: register_data.php");
 
+if (strtoupper(BUILD) == "DEBUG") {
+    echo "<div class='container-fluid'>";
+    echo "update sql : <br>";
+    echo $sql;
+    echo "<p>&nbsp</p>";
+    echo "raw data : <br>";
+    print_r($q);
+    echo "<p>&nbsp</p>";
+    echo "exploded data : <br>";
+    print_r($params);
+    echo "<p>&nbsp</p>";
+    echo "array list : <br>";
+    print_r($array_list);
     echo "<p>&nbsp</p>Update key ID : " . $array_list[":AI"];
-
-    $affected_rows = $stmt->rowCount();
     echo "<p>&nbsp</p>" . $affected_rows . " rows updated <br>";
-    $stmt = null;
-    ?>
-</div>
+    echo "</div>";
+}
+?>

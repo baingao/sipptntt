@@ -1,58 +1,90 @@
 <?php
+//============================================================+
+// File name   : example_048.php
+// Begin       : 2009-03-20
+// Last Update : 2013-05-14
+//
+// Description : Example 048 for TCPDF class
+//               HTML tables and table headers
+//
+// Author: Nicola Asuni
+//
+// (c) Copyright:
+//               Nicola Asuni
+//               Tecnick.com LTD
+//               www.tecnick.com
+//               info@tecnick.com
+//============================================================+
 
-require_once "includes.php";
-require_once INCLUDES_PATH . DS ."tcpdf/examples/tcpdf_include.php";
+/**
+ * Creates an example PDF TEST document using TCPDF
+ * @package com.tecnick.tcpdf
+ * @abstract TCPDF - Example: HTML tables and table headers
+ * @author Nicola Asuni
+ * @since 2009-03-20
+ */
+
+// Include the main TCPDF library (search for installation path).
+require_once "../includes.php";
+require_once INCLUDES_PATH . DS . "tcpdf/examples/tcpdf_include.php";
 session_start();
 
 $noreg=$_GET["PRINT_KEY"];
-//$noreg = 240;
-$db = new DbConnect();
-
-$stmt = $db->connect()->query("select ppklpa.NoReg,ppklpa.Nomor, ppklpa.Tgl, ppklpa.Alamat, ppklpa.NoSurat,ppklpa.TglSurat,ppklpa.HalSurat,
+	$noreg=240;
+	$db = new DbConnect();
+	
+	$stmt = $db->connect()->query("select ppklpa.NoReg,ppklpa.Nomor, ppklpa.Tgl, ppklpa.Alamat, ppklpa.NoSurat,ppklpa.TglSurat,ppklpa.HalSurat,
 		ppklpa.RekDishubProvNo, ppklpa.RekDishubProvTgl, ppklpa.NamaPerusahaan, ppklpa.AlmtPerusahaan, ppklpa.NamaPemilik,ppklpa.NPWP,
 		ppklpa.NomorSIUAP, ppklpa.NamaKapal, ppklpa.BerlakuMulai, ppklpa.BerlakuSelesai, ppklpa.PadaLintas, ppklpa.Tembusan,
 		register.NamaPemohon
 		from ppklpa inner join register on ppklpa.NoReg=register.AI 
 		where ppklpa.NoReg={$noreg}");
-$stmt->execute();
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	$stmt->execute();
+	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	
+	$noreg = $result['NoReg']; 
+	$nomor = $result['Nomor'];
+	$nama = $result['NamaPemohon'];
+	$tgl = InputSelect::parseDate($result['Tgl']);
+	$alamat = $result['Alamat'];
+	$nosurat = $result['NoSurat']; 
+	$tglsurat = InputSelect::parseDate($result['TglSurat']);
+	$halsurat = $result['HalSurat'];
+	$rekdishubno = $result['RekDishubProvNo'];
+	$rekdishubtgl = InputSelect::parseDate($result['RekDishubProvTgl']);
+	$namaperusahaan=$result['NamaPerusahaan'];
+	$namaperusahaan2=strtoupper($result['NamaPerusahaan']);
+	$alamatperusahaan = $result['AlmtPerusahaan'];
+	$namapemilik = $result['NamaPemilik'];
+	$npwp = $result['NPWP'];
+	$nosiuap = $result['NomorSIUAP'];
+	$namakapal = $result['NamaKapal'];
+	$padalintas = $result ['PadaLintas'];
+	$berlakumulai =  InputSelect::parseDate($result['BerlakuMulai']);
+	$berlakuselesai = InputSelect:: parseDate($result['BerlakuSelesai']);
+	$tembusan = $result['Tembusan'];
+	
 
-$noreg = $result['NoReg'];
-$nomor = $result['Nomor'];
-$nama = $result['NamaPemohon'];
-$tgl = InputSelect::parseDate($result['Tgl']);
-$alamat = $result['Alamat'];
-$nosurat = $result['NoSurat'];
-$tglsurat = InputSelect::parseDate($result['TglSurat']);
-$halsurat = $result['HalSurat'];
-$rekdishubno = $result['RekDishubProvNo'];
-$rekdishubtgl = InputSelect::parseDate($result['RekDishubProvTgl']);
-$namaperusahaan = $result['NamaPerusahaan'];
-$namaperusahaan2 = strtoupper($result['NamaPerusahaan']);
-$alamatperusahaan = $result['AlmtPerusahaan'];
-$namapemilik = $result['NamaPemilik'];
-$npwp = $result['NPWP'];
-$nosiuap = $result['NomorSIUAP'];
-$namakapal = $result['NamaKapal'];
-$padalintas = $result ['PadaLintas'];
-$berlakumulai = InputSelect::parseDate($result['BerlakuMulai']);
-$berlakuselesai = InputSelect:: parseDate($result['BerlakuSelesai']);
-$tembusan = $result['Tembusan'];
+// create new PDF document//
+//$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
+// create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
+  
 // add a page
-$resolution = array(210, 330);
+$resolution= array(210, 330);
 $pdf->setPrintHeader(false);
-$pdf->SetMargins(20, 35, 20);
+$pdf->SetMargins(20,35,20);
 $pdf->AddPage('P', $resolution);
 
-$fontname = TCPDF_FONTS::addTTFfont('fonts/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
+// convert TTF font to TCPDF format and store it on the fonts folder
+$fontname = TCPDF_FONTS::addTTFfont('font/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
 
 // use the font
 $pdf->SetFont($fontname, '', 9, '2', false);
 
 //$pdf->SetFont('Tahoma', '', 9);
+
 // -----------------------------------------------------------------------------
 
 $tbl = <<<EOD
@@ -88,7 +120,7 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // -----------------------------------------------------------------------------
 // convert TTF font to TCPDF format and store it on the fonts folder
-$fontname = TCPDF_FONTS::addTTFfont('fonts/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
+$fontname = TCPDF_FONTS::addTTFfont('font/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
 
 // use the font
 $pdf->SetFont($fontname, '', 9, '', false);
@@ -98,88 +130,96 @@ $tbl = <<<EOD
     <tr>
 
 		<td width="100%" align="Justify">
-			<p>Berdasarkan surat Direktur Utama {$namaperusahaan} Nomor : {$nosurat} Tanggal  {$tglsurat} tentang {$halsurat} dan Rekomendasi Kepala Dinas Perhubungan Provinsi Nusa Tenggara Timur Nomor: {$rekdishubno} tanggal {$rekdishubtgl}, maka diberikan Persetujuan Pengoperasian Kapal Angkutan Penyeberangan kepada :</p>
+			<p style="line-height:1.5">Berdasarkan surat Direktur Utama {$namaperusahaan} Nomor : {$nosurat} Tanggal  {$tglsurat} tentang {$halsurat} dan Rekomendasi Kepala Dinas Perhubungan Provinsi Nusa Tenggara Timur Nomor: {$rekdishubno} tanggal {$rekdishubtgl}, maka diberikan Persetujuan Pengoperasian Kapal Angkutan Penyeberangan kepada :</p>
 		</td>
     </tr>
-    <tr><td></td></tr>
+
     <tr>
+		<td width="5%" align="center"></td>
 		<td width="34%" align="Left">
 			NAMA KAPAL
 		</td>
 		<td width="2%" align="center">:</td>
-		<td width="64%" align="Left">
+		<td width="59%" align="Left">
 			<strong>{$namakapal}</strong>
 		</td>
 		
     </tr>
 	
 	<tr>
+		<td width="5%" align="center"></td>
 		<td width="34%" align="Left">
 			PADA LINTAS
 		</td>
 		<td width="2%" align="center">:</td>
-		<td width="64%" align="Left">
+		<td width="59%" align="Left">
 			{$padalintas}
 		</td>
     </tr>
 	
 	<tr>
+		<td width="5%" align="center"></td>
 		<td width="34%" align="Left">
 			NAMA PERUSAHAAN
 		</td>
 		<td width="2%" align="center">:</td>
-		<td width="64%" align="Left">
+		<td width="59%" align="Left">
 			<strong>{$namaperusahaan}</strong>
 		</td>
     </tr>
 	
 	<tr>
+		<td width="5%" align="center"></td>
 		<td width="34%" align="Left">
 			ALAMAT KANTOR PERUSAHAAN
 		</td>
 		<td width="2%" align="center">:</td>
-		<td width="64%" align="Left">
+		<td width="59%" align="Left">
 			{$alamatperusahaan}
 		</td>
     </tr>
 	
 	<tr>
+		<td width="5%" align="center"></td>
 		<td width="34%" align="Left">
 			NAMA PEMILIK / PENANGGUNG JAWAB
 		</td>
 		<td width="2%" align="center">:</td>
-		<td width="64%" align="Left">
+		<td width="59%" align="Left">
 			<strong>{$namaperusahaan2} / {$namapemilik}</strong>
 		</td>
     </tr>
 
 	
 	<tr>
+		<td width="5%" align="center"></td>
 		<td width="34%" align="Left">
 			NOMOR POKOK WAJIB PAJAK (NPWP)
 		</td>
 		<td width="2%" align="center">:</td>
-		<td width="64%" align="Left">
+		<td width="59%" align="Left">
 			{$npwp}
 		</td>
     </tr>
 	
 	<tr>
+		<td width="5%" align="center"></td>
 		<td width="34%" align="Left">
 			NOMOR SURAT IZIN USAHA ANGKUTAN	PENYEBERANGAN (SIUAP)
 		</td>
 		<td width="2%" align="center">:</td>
-		<td width="64%" align="Left">
+		<td width="59%" align="Left">
 			{$nosiuap}
 		</td>
     </tr>
-    <tr><td></td></tr>
+	
+	
     <tr>
 		<td width="100%" align="Justify">
 			KEWAJIBAN PEMEGANG SURAT PERSETUJUAN PENGOPERASIAN KAPAL ANGKUTAN PENYEBERANGAN :
 		</td>
     </tr>
-	<tr><td></td></tr>
+	
 	<tr>
 		<td width="3%" align="Justify">1.</td>
 		<td width="97%" align="Justify">
@@ -233,12 +273,17 @@ $tbl = <<<EOD
 		<td width="97%" align="Justify">
 		Wajib melakukan Registrasi Ulang Setiap Tahun (12 bulan) pada tanggal jatuh tempo 27 November tahun berjalan Surat Persetujuan Pengoperasian Kapal Penyeberangan kepada Gubernur Cq. Kepala Kantor Pelayanan Perizinan Terpadu Satu Pintu Provinsi Nusa Tenggara Timur.</td>
 	</tr>
-        <tr><td></td></tr>
 	 <tr>
 		<td width="100%" align="Justify">
 			Surat Persetujuan Pengoperasian Kapal Angkutan Penyeberangan ini dapat ditinjau kembali atau dicabut, apabila pemegang persetujuan tidak mematuhi kewajiban dalam surat persetujuan pengoperasian kapal penyeberangan ini, dan / atau melakukan tindak pidana oleh yang bersangkutan dengan kegiatannya.<br>
 			Surat Persetujuan Pengoperasian Kapal Penyeberangan ini berlaku sejak tanggal {$berlakumulai} sampai dengan tanggal {$berlakuselesai}.
 
+		</td>
+    </tr>
+	
+	<tr>
+		<td width="100%" align="Justify">
+			Surat Izin Usaha ini berlaku untuk Pelabuhan Waingapu, Pelabuhan Kalabahi dan Pelabuhan Ende di Provinsi Nusa Tenggara Timur selama perusahaan yang bersangkutan masih menjalankan kegiatan usahanya.
 		</td>
     </tr>
 </table>
@@ -248,14 +293,14 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // -----------------------------------------------------------------------------
 $stmt = $db->connect()->query("select config.NamaTTD1, config.NIPTTD1, config.PangkatTTD1 from config where config.AI=1");
-$stmt->execute();
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-$namakepala = $result['NamaTTD1'];
-$nipkepala = $result['NIPTTD1'];
-$pangkatkepala = $result['PangkatTTD1'];
-
+	$stmt->execute();
+	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	$namakepala = $result['NamaTTD1'];
+	$nipkepala = $result['NIPTTD1'];
+	$pangkatkepala = $result['PangkatTTD1'];
+	
 // convert TTF font to TCPDF format and store it on the fonts folder
-$fontname = TCPDF_FONTS::addTTFfont('fonts/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
+$fontname = TCPDF_FONTS::addTTFfont('font/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
 
 // use the font
 $pdf->SetFont($fontname, '', 9, '', false);
@@ -367,7 +412,7 @@ EOD;
 $pdf->writeHTML($tbl, true, false, false, false, '');
 // -----------------------------------------------------------------------------
 // convert TTF font to TCPDF format and store it on the fonts folder
-$fontname = TCPDF_FONTS::addTTFfont('fonts/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
+$fontname = TCPDF_FONTS::addTTFfont('font/Tahoma.ttf', 'TrueTypeUnicode', '', 96);
 
 // use the font
 $pdf->SetFont($fontname, '', 7, '', false);
@@ -388,5 +433,10 @@ EOD;
 
 $pdf->writeHTML($tbl, true, false, false, false, '');
 // -----------------------------------------------------------------------------
+
 //Close and output PDF document
-$pdf->Output('sipptntt_ppklpa.pdf', 'I');
+$pdf->Output('ppklpa.pdf', 'I');
+
+//============================================================+
+// END OF FILE
+//============================================================+

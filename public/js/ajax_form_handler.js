@@ -2,6 +2,14 @@ function showLampiran(no_izin) {
     window.location.href = ('izin_lampiran_data.php?NO_IZIN=' + no_izin);
 }
 
+function lampiranConfirmDelete(no_reg, table_name, return_url) {
+    if (window.confirm('Hapus data lampiran ini ?')==true) {
+        window.location.href = ('submit_delete.php?DELETE_KEY=' + no_reg + '&DELETE_TABLE_NAME='+table_name);
+        window.alert('Data sudah terhapus.');
+        window.open(return_url, '_self');
+    }
+}
+
 function confirmDelete(no_reg) {
     if (window.confirm('Hapus data dengan nomor registrasi : ' + no_reg + ' ?')==true) {
         window.location.href = ('submit_delete.php?DELETE_KEY=' + no_reg + '&DELETE_TABLE_NAME=register&DELETE_RETURN_TO=register_data.php');
@@ -12,8 +20,8 @@ function userConfirmDelete(id_user) {
     if (window.confirm('Hapus user dengan id : ' + id_user + ' ?')==true) {
         window.location.href = ('submit_delete.php?DELETE_KEY=' + id_user + '&DELETE_TABLE_NAME=user&DELETE_RETURN_TO=konfigurasi_user_data.php');
     }
-
 }
+
 function userGantiPasswordFormUpdate(form_id) {
     var elementValues, id_user, username, role;
     var array_delimiter = "|", key_delimiter = "<K>", value_delimiter = "<V>";
@@ -54,8 +62,14 @@ function userFormUpdate(form_id) {
 function formUpdate(form_id) {
     var elementValuesById;
     if (window.confirm('Update data?')==true) {
-        elementValuesById = getElementValuesById(form_id);
-        showPageWithParam("submit_update.php?params=", elementValuesById, "Update data berhasil", false);
+        try {
+            elementValuesById = getElementValuesById(form_id);
+            showPageWithParam("submit_update.php?params=", elementValuesById, "Update data berhasil", false);
+            window.alert('Update data berhasil.');
+            window.open('register_data.php', '_self');
+        } catch(err) {
+            window.alert('Update data gagal.\n' + err.message);
+        }    
     }
 }
 

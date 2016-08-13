@@ -28,17 +28,6 @@ if ($_POST) {
         header("location: register_data.php");
     } elseif (isset($_POST["button_edit"])) {
         header("location: register_edit.php?UPDATE_KEY={$_POST["button_edit"]}");
-//    } elseif (isset($_POST["button_print_register"])) {
-//        header("location: register_print.php?PRINT_KEY={$_POST["button_print_register"]}");
-//    } elseif (isset($_POST["button_print_izin"])) {
-//        $print_key = $_POST["button_print_izin"];
-//        header("location: izin_print.php?PRINT_KEY={$print_key}");
-//    }
-//    elseif (isset($_POST["button_delete"])) {
-//        $_SESSION["DELETE_KEY"] = $_POST["button_delete"];
-//        $_SESSION["DELETE_TABLE_NAME"] = "register";
-//        $_SESSION["DELETE_RETURN_TO"] = "register_data.php";
-//        header('location: submit_delete.php');
     } elseif (isset($_POST["button_terbit"])) {
         require_once 'includes.php';
         $terbit_key = $_POST["button_terbit"];

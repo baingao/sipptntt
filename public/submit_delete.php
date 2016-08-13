@@ -21,6 +21,7 @@ if (isset($_GET['DELETE_RETURN_TO'])) {
 $key_field = $_SESSION["DELETE_KEY"];
 $table_name = $_SESSION["DELETE_TABLE_NAME"];
 $return_to = $_SESSION["DELETE_RETURN_TO"];
+echo $return_to;
 $_SESSION["DELETE_KEY"] = null;
 $_SESSION["DELETE_TABLE_NAME"] = null;
 $_SESSION["DELETE_RETURN_TO"] = null;
@@ -33,4 +34,4 @@ $db = new DbConnect();
 $stmt = $db->connect()->prepare($sql);
 $stmt->execute(array($key_field));
 $rowsAffected = $stmt->rowCount();
-header("location: " . $return_to);
+//header("location: " . $return_to);

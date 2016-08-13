@@ -1,6 +1,6 @@
 <?php
 
-require_once "includes.php";
+require_once "../includes.php";
 require_once INCLUDES_PATH . DS . "tcpdf/examples/tcpdf_include.php";
 session_start();
 
@@ -282,7 +282,7 @@ $tbl = <<<EOD
 	<tr>
 		<td width="45%" align="Right">
 
-			<img style="margin-top:5px;" src="images/pasfoto.png" height="50">
+			<img style="margin-top:5px;" src="../images/pasfoto.png" height="50">
 		</td>
 		<td width="40%" align="center">
 

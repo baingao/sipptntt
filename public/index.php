@@ -21,8 +21,8 @@ if (isset($_POST['btn-login'])) {
         $_SESSION['API_KEY'] = $User->getApiKey();
         $_SESSION['LOGIN_TIME'] = $User->getLoginTime();
         $_SESSION['ROLE'] = $User->getRole();
-        $User->redirect('register');
-//        $User->redirect('register_data.php');
+//        $User->redirect('register');
+        $User->redirect('register_data.php');
     } else {
         $error = "Kombinasi nama dan password salah !";
     }
@@ -34,11 +34,11 @@ if (isset($_POST['btn-login'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,800,100' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="./js/textillate/assets/animate.css">
-    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/custom.css">
 
     <script type="text/javascript" src="./js/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="./js/bootstrap.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/ajax_kec_kel_select_handler.js"></script>
     <script type="text/javascript" src="./js/ajax_page_handler.js"></script>
     <script type="text/javascript" src="./js/ajax_form_handler.js"></script>
@@ -78,7 +78,6 @@ if (isset($_POST['btn-login'])) {
     <script type="text/javascript">
         $(document).ready(function () {
             $("#content-header").fadeIn("slow");
-            $("#navbar").fadeIn(3000);
             $("footer").fadeIn(4000);
             $(function () {
                 $('.tlt').textillate();

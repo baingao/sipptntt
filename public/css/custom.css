@@ -99,7 +99,7 @@ body {
 }
 
 .header {
-    padding: 50px 0;
+    padding: 50px 25px;
     text-align: center;
     color: #fff;
     background: -moz-radial-gradient(center, ellipse cover, rgba(227,71,73,1) 0%, rgba(186,27,31,1) 100%); /* ff3.6+ */

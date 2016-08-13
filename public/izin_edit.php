@@ -73,7 +73,11 @@ foreach ($select_result as $key => $value) {
             $("#message-container").fadeIn(4000);
             $("footer").fadeIn(4000);
             showUpdateButton();
-            showLampiranButton(<?php echo "'{$nama_izin}','{$js_nama_izin_panjang}'";?>, document.getElementById('idKabAsal').value);
+            if (document.getElementById('idKabAsal')) {
+                showLampiranButton(<?php echo "'{$nama_izin}','{$js_nama_izin_panjang}'";?>, document.getElementById('idKabAsal').value);
+            } else {
+                showLampiranButton(<?php echo "'{$nama_izin}','{$js_nama_izin_panjang}'";?>);
+            }
             $(function () {
                 $('.tlt').textillate();
             })
